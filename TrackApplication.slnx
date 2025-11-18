@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="TestProject/TestProject.csproj" />
+  <Project Path="TrackApplication.Data/TrackApplicationData.csproj" />
+  <Project Path="TrackApplication.MigrationsRunner/TrackApplication.MigrationsRunner.csproj" />
+  <Project Path="TrackApplication/TrackApplication.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>
