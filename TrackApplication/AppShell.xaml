@@ -4,11 +4,28 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:TrackApplication"
+    xmlns:employeeviews="clr-namespace:TrackApplication.Views.Employees"
     Title="TrackApplication">
+    
+    <!--
+    To add file to routes, take the files namespace and save it as xmlns:name="clr-namespace:namespace"
+    -->
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <ShellContent
+        Title="Main Page"
+        ContentTemplate="{DataTemplate local:MainPage}" 
+        Route="MainPage"/>
+
+        <ShellContent
+        Title="Employee Page"
+        ContentTemplate="{DataTemplate employeeviews:EmployeePage}" 
+        Route="EmployeePage"/>
+
+        <!--
+        <ShellContent
+        Title="Add Employees"
+        ContentTemplate="{DataTemplate employeeviews:AddEmployeePage}" />-->
+    </TabBar>
 
 </Shell>

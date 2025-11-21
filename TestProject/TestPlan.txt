@@ -1,0 +1,23 @@
+﻿https://docs.google.com/spreadsheets/d/1KNzQONY5DvCefDNZxPIp6lyD3IYnHHWlIw_9KZOFZJM/edit?gid=362070578#gid=362070578
+
+1) Unit Testing the Repository and all methodss in it
+The goal of unit testing the repository is to verify that it correctly 
+interacts with the Entity Framework Core's DbContext and processes data as expected, 
+without hitting an actual SQL database.
+* EF Core's in-memory provider Microsoft.EntityFrameworkCore.InMemory is used
+
+
+
+2) Unit Testing the ViewModel
+The goal here is to verify the view model's business logic, 
+specifically how it uses the repository and manages the state, 
+without using the actual repository implementation.
+
+3) Integration Testing 
+Integration testing verifies that the full stack components (Repository and the actual EF Core/SQL setup) work together.
+Test Structure
+Project: Your xUnit Test Project (or a dedicated TrackApplication.IntegrationTests project).
+Test Class: EmployeeRepositoryIntegrationTests.cs
+Technique: Configure your tests to use a real database.
+Option 1 (Recommended): Use the SQLite provider with an actual file-based database that is created and deleted for each test fixture.
+Option 2 (Advanced): Use Docker to spin up a temporary SQL Server instance.

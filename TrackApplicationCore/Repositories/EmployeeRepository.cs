@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
-using TrackApplication.Interfaces;
+using TrackApplicationCore.Interfaces;
 using TrackApplicationData.DbContextData;
 using TrackApplicationData.Models;
 
-namespace TrackApplication.Repositories
+namespace TrackApplicationCore.Repositories
 {
     public class EmployeeRepository : IEmployeeRepository
     {
@@ -51,9 +52,17 @@ namespace TrackApplication.Repositories
         /// <returns>A task that represents the asynchronous add operation.</returns>
         public async Task AddAsync(Employee employee)
         {
+            Debug.WriteLine("Context hash: " + _context.GetHashCode());
+
+            await _context.Employees.AddAsync(employee);
+            var changes = await _context.SaveChangesAsync();
+            Debug.WriteLine("Changes saved = " + changes);
+            /*
             _context.Employees.Add(employee);
             await _context.SaveChangesAsync();
+            */
         }
+
 
         public async Task UpdateAsync(Employee employee)
         {

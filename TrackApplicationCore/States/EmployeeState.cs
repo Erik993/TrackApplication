@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using TrackApplicationData.Models;
 
-namespace TrackApplication.States;
+namespace TrackApplicationCore.States;
 
 /*
  States - global storage for elements, singleton

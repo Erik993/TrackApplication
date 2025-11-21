@@ -1,6 +1,5 @@
-﻿
-
-using TrackApplication.ViewModels;
+﻿using TrackApplicationCore.ViewModels;
+using TrackApplication.Views.Employees;
 
 namespace TrackApplication
 {
@@ -9,10 +8,17 @@ namespace TrackApplication
 
         //Injected:
         //EmployeeViewModel employeeVm
+        //Shell automatically sends ViewModel to constructor
         public MainPage(EmployeeViewModel employeeVm)
         {
             InitializeComponent();
-            
+            BindingContext = employeeVm;
+        }
+
+        public async void GoToEmployeePageButtonClicked(object sender, EventArgs e)
+        {
+            //await Shell.Current.GoToAsync(nameof(EmployeePage));
+            await Shell.Current.GoToAsync("EmployeePage");
         }
 
     }

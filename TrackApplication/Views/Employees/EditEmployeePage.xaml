@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TrackApplication.Views.Employees.AddEmployeePage"
-             Title="AddEmployeePage">
+             x:Class="TrackApplication.Views.Employees.EditEmployeePage"
+             Title="EditEmployeePage">
     
     <VerticalStackLayout Padding="20" Spacing="15">
-        <Label Text="Add New Employee" FontSize="24" HorizontalOptions="Center"/>
+        <Label Text="Edit an Employee" FontSize="24" HorizontalOptions="Center"/>
 
         <Entry Placeholder="Name" Text="{Binding NewUserName, Mode=TwoWay}"/>
         <Entry Placeholder="Email" Text="{Binding NewEmail, Mode=TwoWay}"/>
         <Switch IsToggled="{Binding NewIsActive}"/>
 
-        <Button Text="Save Employee" Command="{Binding AddEmployeeCommand}"/>
-        <Button Text="Go Back to Employees Page" Clicked="GoBackToEmployeePageClicked"/>
+        <Button Text="Update Employee" Command="{Binding EditEmployeeCommand}"/>
+        <Button Text="Go Back to Employees Page" Clicked="GoBackToEmployeeShowPageClicked"/>
     </VerticalStackLayout>
     
 </ContentPage>

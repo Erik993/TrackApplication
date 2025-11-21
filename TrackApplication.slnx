@@ -5,4 +5,5 @@
   <Project Path="TrackApplication/TrackApplication.csproj">
     <Deploy Solution="Debug|*" />
   </Project>
+  <Project Path="TrackApplicationCore/TrackApplicationCore.csproj" />
 </Solution>

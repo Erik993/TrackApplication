@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
 using System.Text;
 
 namespace TrackApplicationData.Models;
 
+// to-do - every model should implement InotifyPropertyChanged interface
 public abstract class User
 {
     [Key]

@@ -10,8 +10,19 @@ namespace TrackApplicationData.DbContextData
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer
+            //if statement to make test possible with EF InMemory
+            if(!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer
                 ("Server=(localdb)\\mssqllocaldb;Database=TrackApplication;Trusted_Connection=True;MultipleActiveResultSets=true");
+            }
+        }
+            
+
+        public ApplicationContext() { }
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) :base(options)
+        {
+
         }
 
         public DbSet<Employee> Employees { get; set; } = null!;

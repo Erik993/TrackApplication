@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TrackApplicationData.Models;
 
-namespace TrackApplication.Interfaces;
+namespace TrackApplicationCore.Interfaces;
 
 public interface IEmployeeRepository
 {
