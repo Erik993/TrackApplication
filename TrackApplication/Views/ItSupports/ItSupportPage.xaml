@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrackApplication.Views.ItSupports.ItSupportPage"
+             Title="ItSupportPage">
+    
+    <Grid Padding="30" RowSpacing="10" ColumnSpacing="10" HorizontalOptions="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row ="1" Grid.ColumnSpan="2" Text="IT Support page" FontSize="24"></Label>
+        <Button Grid.Row="2" Grid.Column="0" Text="Show all It Supports" Clicked="GoToShowItSupportsButtonClicked"></Button>
+        <Button Grid.Row="2" Grid.Column="1" Text="Add IT Support" Clicked="GoToAddItSupportButtonClicked"></Button>
+        <Button Grid.Row="4" Grid.Column="0" Text="Main Page" Clicked="GoToMainPageButtonClicked"></Button>
+        <!--
+        <Button Grid.Row="2" Grid.Column="1" Text="Add Employee" Clicked="AddEmployeeButtonClicked"></Button>
+-->
+
+        <!--
+        <Label Grid.Row="3" Grid.ColumnSpan="2" Text="Password generator"></Label>
+        <Label Grid.Row="4" Grid.Column="0" Text="Password length: "></Label>
+        <Stepper Grid.Row="4" Grid.Column="1" Minimum="4" Maximum="10" Value="{Binding PasswordLength}"></Stepper>
+        <Label Grid.Row="5" Grid.Column="0" Text="{Binding PasswordLength}" BackgroundColor="Aqua"></Label>
+        <Button Grid.Row="5" Grid.Column="1" Text="Generate password" Command="{Binding GeneratePasswordCommand}"></Button>
+        <Label Grid.Row="6" Grid.Column="0" Text="{Binding GeneratedPassword}" BackgroundColor="Red"></Label>
+        -->
+
+    </Grid>
+
+</ContentPage>

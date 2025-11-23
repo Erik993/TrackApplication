@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using TrackApplication.Views.Employees;
+using TrackApplication.Views.ItSupports;
 using TrackApplicationCore.Interfaces;
 using TrackApplicationCore.Repositories;
 using TrackApplicationCore.States;
@@ -55,13 +56,27 @@ namespace TrackApplication
 
 
 
-            //register pages
+            //------------View page registration-------------------
+            
             builder.Services.AddTransient<MainPage>();
+
+            //Employee
             builder.Services.AddTransient<EmployeePage>();
             builder.Services.AddTransient<AddEmployeePage>();
             builder.Services.AddTransient<ShowEmployeesPage>();
             builder.Services.AddTransient<EditEmployeePage>();
 
+            //ItSupport
+            builder.Services.AddTransient<ItSupportPage>();
+            builder.Services.AddTransient<AddItSupportPage>();
+            builder.Services.AddTransient<ShowItSupportsPage>();
+            builder.Services.AddTransient<EditItSupportPage>();
+
+
+
+
+
+            //------------ViewMode, State, Repo registration-----------
             //Employee
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddTransient<EmployeeViewModel>();
@@ -69,11 +84,10 @@ namespace TrackApplication
             
 
             //ITSupport
-            /*
-            builder.Services.AddScoped<IITSupportRepository, ITSupportRepository>();
-            builder.Services.AddTransient<ITSupportViewModel>();
-            builder.Services.AddSingleton<ITSupportState>();
-            */
+            builder.Services.AddScoped<IItSupportRepository, ItSupportRepository>();
+            builder.Services.AddTransient<ItSupportViewModel>();
+            builder.Services.AddSingleton<ItSupportState>();
+            
 
             //Ticket
             /*

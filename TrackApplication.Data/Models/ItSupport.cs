@@ -7,6 +7,7 @@ namespace TrackApplicationData.Models;
 
 public class ITSupport : User
 {
+    [Required]
     public Role Specialization { get; set; }
 
     public ITSupport() { }

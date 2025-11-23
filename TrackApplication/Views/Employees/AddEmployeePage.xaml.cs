@@ -13,11 +13,14 @@ public partial class AddEmployeePage : ContentPage
         vm.EmployeeAdded += OnEmployeeAdded;
 	}
 
+
+    /*
     private async void GoToUpdateEmployeePageButtonClicked(object sender, EventArgs e)
     {
         Debug.WriteLine("redirecting to update empl page");
         await Shell.Current.GoToAsync(nameof(EditEmployeePage));
     }
+    */
 
 
     private async void GoBackToEmployeePageClicked(object sender, EventArgs e)

@@ -5,10 +5,10 @@ namespace TrackApplication.Views.Employees;
 
 public partial class EmployeePage : ContentPage
 {
-	public EmployeePage(EmployeeViewModel viewmodel)
+	public EmployeePage(EmployeeViewModel vm)
 	{
 		InitializeComponent();
-		BindingContext = viewmodel;
+		BindingContext = vm;
 	}
 
 	public async void GoToAddEmployeeButtonClicked(object sender, EventArgs e)

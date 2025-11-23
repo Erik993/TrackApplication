@@ -1,4 +1,5 @@
 ﻿using TrackApplication.Views.Employees;
+using TrackApplication.Views.ItSupports;
 
 namespace TrackApplication
 {
@@ -15,13 +16,18 @@ namespace TrackApplication
 
             //Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
             //Routing.RegisterRoute(nameof(EmployeePage), typeof(EmployeePage));
+
+            //Employee pages registered
             Routing.RegisterRoute(nameof(AddEmployeePage), typeof(AddEmployeePage));
             Routing.RegisterRoute(nameof(ShowEmployeesPage), typeof(ShowEmployeesPage));
             Routing.RegisterRoute(nameof(EditEmployeePage), typeof(EditEmployeePage));
 
+            //It Support pages registered
+            Routing.RegisterRoute(nameof(AddItSupportPage), typeof(AddItSupportPage));
+            Routing.RegisterRoute(nameof(ShowItSupportsPage), typeof(ShowItSupportsPage));
+            Routing.RegisterRoute(nameof(EditItSupportPage), typeof(EditItSupportPage));
 
-            //Routing.RegisterRoute("ShowEmployeesPage/EditEmployeePage", typeof(EditEmployeePage));
-            //Routing.RegisterRoute("ShowEmployeePage/EditEmployeePage", typeof(EditEmployeePage));
+
 
         }
     }

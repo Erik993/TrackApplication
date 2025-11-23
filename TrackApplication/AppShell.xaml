@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:TrackApplication"
     xmlns:employeeviews="clr-namespace:TrackApplication.Views.Employees"
+    xmlns:itsupportviews="clr-namespace:TrackApplication.Views.ItSupports"
     Title="TrackApplication">
     
     <!--
@@ -22,10 +23,12 @@
         ContentTemplate="{DataTemplate employeeviews:EmployeePage}" 
         Route="EmployeePage"/>
 
-        <!--
         <ShellContent
-        Title="Add Employees"
-        ContentTemplate="{DataTemplate employeeviews:AddEmployeePage}" />-->
+        Title="It Support Page"
+        ContentTemplate="{DataTemplate itsupportviews:ItSupportPage}" 
+        Route="ItSupportPage"/>
+
+
     </TabBar>
 
 </Shell>

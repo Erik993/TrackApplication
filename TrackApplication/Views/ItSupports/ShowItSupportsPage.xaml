@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrackApplication.Views.ItSupports.ShowItSupportsPage"
+             x:Name="ShowItSuppPage"
+             Title="ShowItSupportsPage">
+    <!--x:name is used in delete function-->
+    
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="10">
+
+            <Button Text="Back"
+                    BackgroundColor="LightGray"
+                    TextColor="Black"
+                    Clicked="GoToBackToItSupportPageButtonClicked"/>
+
+            <CollectionView ItemsSource="{Binding ItSupports}">
+
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="4" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="8"
+                                Padding="30"
+                                BackgroundColor="FloralWhite">
+                            <VerticalStackLayout Spacing="4">
+
+                                <Label Text="{Binding UserName}" FontSize="18" FontAttributes="Bold" />
+                                <Label Text="{Binding Email}" FontSize="14" />
+                                <Label Text="{Binding IsActive, StringFormat='Active: {0}'}"
+                                       FontSize="12" TextColor="Green" />
+                                <Label Text="TODO: SPECIALIZATION SHOULD BE THERE" TextColor="Red"/>
+
+                                <Button Text="Delete"
+                                        BackgroundColor="BurlyWood"
+                                        TextColor="Black"
+                                        Command="{Binding BindingContext.DeleteItSuppportCommand, Source={x:Reference ShowItSuppPage}}"
+                                        CommandParameter="{Binding .}" />
+
+                                <Button Text="Edit"
+                                        Clicked="GoToEditItSupportPageButtonClicked" />
+
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

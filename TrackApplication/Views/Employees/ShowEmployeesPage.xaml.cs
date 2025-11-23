@@ -16,7 +16,8 @@ public partial class ShowEmployeesPage : ContentPage
 
 	private async void GoToEditEmployeePageButtonClicked(object sender, EventArgs e)
 	{
-		await Shell.Current.GoToAsync(nameof(EditEmployeePage));
+        Debug.WriteLine("redirecting to update empl page");
+        await Shell.Current.GoToAsync(nameof(EditEmployeePage));
     }
 
     private async void GoToBackToEmployeePageButtonClicked(object sender, EventArgs e)
