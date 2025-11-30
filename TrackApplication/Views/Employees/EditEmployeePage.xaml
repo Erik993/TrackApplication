@@ -7,11 +7,11 @@
     <VerticalStackLayout Padding="20" Spacing="15">
         <Label Text="Edit an Employee" FontSize="24" HorizontalOptions="Center"/>
 
-        <Entry Placeholder="Name" Text="{Binding NewUserName, Mode=TwoWay}"/>
-        <Entry Placeholder="Email" Text="{Binding NewEmail, Mode=TwoWay}"/>
-        <Switch IsToggled="{Binding NewIsActive}"/>
+        <Entry Placeholder="Name" Text="{Binding EditUserName, Mode=TwoWay}"/>
+        <Entry Placeholder="Email" Text="{Binding EditEmail, Mode=TwoWay}"/>
+        <Switch IsToggled="{Binding EditIsActive}"/>
 
-        <Button Text="Update Employee" Command="{Binding EditEmployeeCommand}"/>
+        <Button Text="Update Employee" Command="{Binding UpdateEmployeeCommand}"/>
         <Button Text="Go Back to Employees Page" Clicked="GoBackToEmployeeShowPageClicked"/>
     </VerticalStackLayout>
     

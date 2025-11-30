@@ -9,7 +9,6 @@ using TrackApplicationCore.Interfaces;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-
 namespace TrackApplicationCore.ViewModels;
 
 
@@ -19,7 +18,19 @@ public partial class EmployeeViewModel : ObservableObject
     private readonly IEmployeeRepository _repository;
     private readonly EmployeeState _state;
 
-    public ObservableCollection<Employee> Employees { get; set; } = new();
+
+    //property is used in GoToEditEmployee method. without it shell navigation does not works. 
+    private readonly INavigationService _navigation;
+
+
+
+
+    //public ObservableCollection<Employee> Employees { get; set; } = new();
+    public ObservableCollection<Employee> Employees => _state.Employees;
+
+
+
+
 
     [ObservableProperty]
     private string newUserName = string.Empty;
@@ -33,22 +44,41 @@ public partial class EmployeeViewModel : ObservableObject
     [ObservableProperty]
     private DateTime newContractDate;
 
+
+
+    /*Fields for Editing the element*/
+    [ObservableProperty]
+    private Employee? selectedEmployee;
+
+    [ObservableProperty]
+    private string editUserName;
+
+    [ObservableProperty]
+    private string editEmail;
+
+    [ObservableProperty]
+    private bool editIsActive;
+    /*--------------------*/
+
+
+
     //Events to show alert windows
     public event Func<string, Task>? EmployeeAdded;
     public event Func<Employee, Task>? EmployeeDeleted;
     public event Func<Employee, Task>? EmployeeUpdated;
 
-    public EmployeeViewModel(IEmployeeRepository repository, EmployeeState state)
+    public EmployeeViewModel(IEmployeeRepository repository, EmployeeState state, INavigationService navigation)
     {
         _repository = repository;
         _state = state;
+        _navigation = navigation;
         LoadEmployees();
 
         //if this is printed when the page loads - DI is injecting
         Debug.WriteLine("ViewModel created with repo: " + repository.GetType().Name);
     }
 
-
+    /*
     [RelayCommand]
     public async Task LoadEmployees()
     {
@@ -60,8 +90,23 @@ public partial class EmployeeViewModel : ObservableObject
             Employees.Add(e);
         }
 
-        _state.Employees = Employees;
+        _state.Employees.Clear();
+        foreach (var e in Employees)
+            _state.Employees.Add(e);
+    }*/
+
+
+    [RelayCommand]
+    public async Task LoadEmployees()
+    {
+        var list = await _repository.GetAllAsync();
+
+        _state.Employees.Clear();
+        foreach (var e in list)
+            _state.Employees.Add(e);
     }
+
+
 
     [RelayCommand]
     private async Task AddEmployee()
@@ -89,6 +134,7 @@ public partial class EmployeeViewModel : ObservableObject
         NewEmail = string.Empty;
     }
 
+
     [RelayCommand]
     private async Task DeleteEmployee(Employee employee)
     {
@@ -103,46 +149,66 @@ public partial class EmployeeViewModel : ObservableObject
         }
     }
 
+
     [RelayCommand]
-    private async Task EditEmployee(Employee employee)
+    public async Task UpdateEmployee()
     {
-        Debug.WriteLine("editing employee");
+        if (SelectedEmployee == null)
+            return;
 
-        if (!string.IsNullOrEmpty(NewUserName))
-        {
-            employee.UserName = NewUserName;
-        }
+        if (!string.IsNullOrWhiteSpace(EditUserName))
+            SelectedEmployee.UserName = EditUserName;
 
+        if (!string.IsNullOrWhiteSpace(EditEmail))
+            SelectedEmployee.Email = EditEmail;
 
-        else if(!string.IsNullOrEmpty(NewEmail))
-        {
-            employee.Email = NewEmail;
-        }
+        SelectedEmployee.IsActive = EditIsActive;
 
-        await _repository.UpdateAsync(employee);
+        //update record in database
+        await _repository.UpdateAsync(SelectedEmployee);
+
+        //reload collection for UI
         await LoadEmployees();
 
-        Debug.WriteLine($"new employee: {employee.UserName}, {employee.Email}");
+
+        //reset edited fields
+        EditUserName = string.Empty;
+        EditEmail = string.Empty;
+
+
+        //run event if the employee was updated
+        if (EmployeeUpdated != null)
+            await EmployeeUpdated.Invoke(SelectedEmployee);
+
+        //await _navigation.GoToAsync("..");
+
+        // Update ObservableCollection immediately
+        
+
+
     }
+
+
+
+    //Load Employee by id, to edit it later
+    public async Task LoadEmployeeForEdit(int employeeId)
+    {
+        SelectedEmployee = await _repository.GetByIdAsync(employeeId);
+
+        if (SelectedEmployee != null)
+        {
+            EditUserName = SelectedEmployee.UserName;
+            EditEmail = SelectedEmployee.Email;
+            EditIsActive = SelectedEmployee.IsActive;
+        }
+    }
+
+    
+    [RelayCommand]
+    public async Task GoToEditEmployee(int employeeId)
+    {
+        await _navigation.GoToAsync($"EditEmployeePage?employeeId={employeeId}");
+    }
+
 
 }
-
-/*
-////////
-    [ObservableProperty]
-    private int passwordLength = 8;
-
-    [ObservableProperty]
-    private string generatedPassword = string.Empty;
-
-    [RelayCommand]
-    private void GeneratePassword()
-    {
-        var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        Random rand = new();
-        GeneratedPassword = new string(Enumerable.Repeat(chars, PasswordLength)
-                  .Select(s => s[rand.Next(s.Length)]).ToArray());
-    }
-
-    /// /////////////////////////////
-*/

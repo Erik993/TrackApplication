@@ -38,4 +38,7 @@ public partial class ShowEmployeesPage : ContentPage
 	{
 		Debug.WriteLine("clicked delete");
 	}
+
+
+
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using TrackApplication.Services;
 using TrackApplication.Views.Employees;
 using TrackApplication.Views.ItSupports;
 using TrackApplicationCore.Interfaces;
@@ -60,6 +61,9 @@ namespace TrackApplication
             
             builder.Services.AddTransient<MainPage>();
 
+            //for update navigation funtionality
+            builder.Services.AddSingleton<INavigationService, NavigationService>();
+
             //Employee
             builder.Services.AddTransient<EmployeePage>();
             builder.Services.AddTransient<AddEmployeePage>();
@@ -79,7 +83,7 @@ namespace TrackApplication
             //------------ViewMode, State, Repo registration-----------
             //Employee
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            builder.Services.AddTransient<EmployeeViewModel>();
+            builder.Services.AddScoped<EmployeeViewModel>();
             builder.Services.AddSingleton<EmployeeState>();
             
 

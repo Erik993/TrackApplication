@@ -39,9 +39,14 @@
                                         TextColor="Black"
                                         Command="{Binding BindingContext.DeleteEmployeeCommand, Source={x:Reference ShowEmplPage}}"
                                         CommandParameter="{Binding .}" />
-
+                                <!--
                                 <Button Text="Edit"
                                         Clicked="GoToEditEmployeePageButtonClicked" />
+                                -->
+
+                                <Button Text="Edit"
+                                        Command="{Binding BindingContext.GoToEditEmployeeCommand, Source={x:Reference ShowEmplPage}}"
+                                        CommandParameter="{Binding UserId}" />
 
                             </VerticalStackLayout>
                         </Border>
