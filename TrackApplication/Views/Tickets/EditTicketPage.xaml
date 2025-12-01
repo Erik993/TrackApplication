@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrackApplication.Views.Tickets.EditTicketPage"
+             Title="EditTicketPage">
+    
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <Label Text="Edit Ticket"
+               FontSize="24"
+               HorizontalOptions="Center" />
+
+        <!-- Title -->
+        <Entry Placeholder="Title"
+               Text="{Binding EditTitle, Mode=TwoWay}" />
+
+        <!-- Description -->
+        <Editor Placeholder="Description"
+                AutoSize="TextChanges"
+                HeightRequest="120"
+                Text="{Binding EditDescription, Mode=TwoWay}" />
+
+        <!-- Creator -->
+        <Picker Title="Select Creator"
+                ItemsSource="{Binding Employees}"
+                ItemDisplayBinding="{Binding UserName}"
+                SelectedItem="{Binding EditSelectedEmployee, Mode=TwoWay}" />
+
+        <!-- Priority -->
+        <Picker Title="Select Priority"
+                ItemsSource="{Binding PriorityValues}"
+                SelectedItem="{Binding EditSelectedPriority, Mode=TwoWay}" />
+
+        <!-- Status -->
+        <Picker Title="Select Status"
+                ItemsSource="{Binding StatusValues}"
+                SelectedItem="{Binding EditSelectedStatus, Mode=TwoWay}" />
+
+        <!-- Resolved -->
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Is Resolved?" VerticalOptions="Center" />
+            <Switch IsToggled="{Binding EditIsResolved, Mode=TwoWay}" />
+        </HorizontalStackLayout>
+
+        <!-- Update -->
+        <Button Text="Update Ticket"
+                Command="{Binding UpdateTicketCommand}"
+                BackgroundColor="Green"
+                TextColor="White" />
+
+        <!-- Back -->
+        <Button Text="Back to Tickets"
+                Clicked="GoBackToShowTicketsPageClicked" />
+
+    </VerticalStackLayout>
+
+</ContentPage>

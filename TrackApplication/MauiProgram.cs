@@ -6,6 +6,7 @@ using System.Diagnostics;
 using TrackApplication.Services;
 using TrackApplication.Views.Employees;
 using TrackApplication.Views.ItSupports;
+using TrackApplication.Views.Tickets;
 using TrackApplicationCore.Interfaces;
 using TrackApplicationCore.Repositories;
 using TrackApplicationCore.States;
@@ -83,20 +84,23 @@ namespace TrackApplication
 
 
 
-            //Employee
+            //Employee pages
             builder.Services.AddTransient<EmployeePage>();
             builder.Services.AddTransient<AddEmployeePage>();
             builder.Services.AddTransient<ShowEmployeesPage>();
             builder.Services.AddTransient<EditEmployeePage>();
 
-            //ItSupport
+            //ItSupport pages
             builder.Services.AddTransient<ItSupportPage>();
             builder.Services.AddTransient<AddItSupportPage>();
             builder.Services.AddTransient<ShowItSupportsPage>();
             builder.Services.AddTransient<EditItSupportPage>();
 
-
-
+            //Ticket pages
+            builder.Services.AddTransient<TicketPage>();
+            builder.Services.AddTransient<AddTicketPage>();
+            builder.Services.AddTransient<ShowTicketsPage>();
+            builder.Services.AddTransient<EditTicketPage>();
 
 
             //------------ViewModel, State, Repo registration-----------
@@ -118,11 +122,10 @@ namespace TrackApplication
             
 
             //Ticket
-            /*
             builder.Services.AddScoped<ITicketRepository, TicketRepository>();
             builder.Services.AddTransient<TicketViewModel>();
             builder.Services.AddSingleton<TicketState>();
-            */
+            
 
 
 

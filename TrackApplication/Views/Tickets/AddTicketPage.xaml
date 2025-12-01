@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrackApplication.Views.Tickets.AddTicketPage"
+             Title="AddTicketPage">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        
+        <!--TODO: check draft-->
+        
+        <Label Text="Create New Ticket"
+               FontSize="24"
+               HorizontalOptions="Center"/>
+
+        <Entry Placeholder="Ticket Title"
+               Text="{Binding NewTitle, Mode=TwoWay}" />
+
+        <Editor Placeholder="Description"
+                AutoSize="TextChanges"
+                HeightRequest="120"
+                Text="{Binding NewDescription, Mode=TwoWay}" />
+
+        <Picker Title="Select Creator"
+                ItemsSource="{Binding Employees}"
+                ItemDisplayBinding="{Binding UserName}"
+                SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}" />
+
+        <Picker Title="Select Priority"
+                ItemsSource="{Binding PriorityValues}"
+                SelectedItem="{Binding SelectedPriority, Mode=TwoWay}" />
+
+        <Picker Title="Select Status"
+                ItemsSource="{Binding StatusValues}"
+                SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" />
+
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Is Resolved?" VerticalOptions="Center" />
+            <Switch IsToggled="{Binding IsResolved, Mode=TwoWay}" />
+        </HorizontalStackLayout>
+
+        <Button Text="Save Ticket"
+                Command="{Binding AddTicketCommand}"
+                BackgroundColor="Green"
+                TextColor="White" />
+
+        <Button Text="Back"
+                Clicked="GoBackToTicketPageClicked" />
+
+    </VerticalStackLayout>
+</ContentPage>

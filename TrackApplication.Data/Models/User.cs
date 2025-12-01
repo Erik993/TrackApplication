@@ -7,7 +7,6 @@ using System.Text;
 
 namespace TrackApplicationData.Models;
 
-// to-do - every model should implement InotifyPropertyChanged interface
 public abstract class User
 {
     [Key]

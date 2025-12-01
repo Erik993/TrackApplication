@@ -16,6 +16,10 @@ There following projects in solution:
 4) ViewModel - handle UI, repare data for UI, loads data into state. Transcient lifetime
 
 
+---Comments, what can be impoved or doesnot works as intended
+1) after element update, need to go back to main element page, then on show page, and element is hown updated.
+perhaps UI can't immediately show updated element data, so before-update data is shown
+
 
 
 Libraries installed:

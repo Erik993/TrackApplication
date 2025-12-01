@@ -12,7 +12,7 @@ public partial class AddItSupportPage : ContentPage
         vm.ItSupportAdded += OnItSupportAdded;
 
         //for debugging
-        Debug.WriteLine("BindingContext = " + BindingContext?.GetType().Name);
+        //Debug.WriteLine("BindingContext = " + BindingContext?.GetType().Name);
     }
 
 	private async void GoBackToItSupportPageClicked(object sender, EventArgs e)

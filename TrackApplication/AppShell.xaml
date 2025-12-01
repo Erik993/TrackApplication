@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:TrackApplication"
     xmlns:employeeviews="clr-namespace:TrackApplication.Views.Employees"
     xmlns:itsupportviews="clr-namespace:TrackApplication.Views.ItSupports"
+    xmlns:ticketviews="clr-namespace:TrackApplication.Views.Tickets"
     Title="TrackApplication">
     
     <!--
@@ -27,6 +28,11 @@
         Title="It Support Page"
         ContentTemplate="{DataTemplate itsupportviews:ItSupportPage}" 
         Route="ItSupportPage"/>
+
+        <ShellContent
+        Title="Ticket Page"
+        ContentTemplate="{DataTemplate ticketviews:TicketPage}" 
+        Route="TicketPage"/>
 
 
     </TabBar>

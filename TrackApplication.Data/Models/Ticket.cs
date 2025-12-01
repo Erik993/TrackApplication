@@ -18,25 +18,31 @@ public class Ticket
     [MaxLength(2000)]
     public string Description { get; set; } = string.Empty;
 
-    
+
+    [Required]
     public int CreatedById { get; set; }
 
     [ForeignKey(nameof(CreatedById))]
     public Employee CreatedBy { get; set; } = null!;
 
+    [Required]
     public StatusEnum Status { get; set; }
+
+    [Required]
     public PriorityEnum Priority { get; set; }
 
+    [Required]
     public bool IsResolved { get; set; }
 
     public Ticket() { }
 
-    public Ticket(string title, string description, PriorityEnum priority, Employee createdBy, StatusEnum status, bool isResolved)
+    public Ticket(string title, string description, PriorityEnum priority, Employee createdBy, StatusEnum status = StatusEnum.Open, bool isResolved = false)
     {
         Title = title;
         Description = description;
         Priority = priority;
         CreatedBy = createdBy;
+        CreatedById = createdBy.UserId;
         Status = status;
         IsResolved = isResolved;
     }

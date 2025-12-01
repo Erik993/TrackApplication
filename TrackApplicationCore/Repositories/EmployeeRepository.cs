@@ -27,15 +27,11 @@ namespace TrackApplicationCore.Repositories
 
         public async Task AddAsync(Employee employee)
         {
-            Debug.WriteLine("Context hash: " + _context.GetHashCode());
+            //Debug.WriteLine("Context hash: " + _context.GetHashCode());
 
             await _context.Employees.AddAsync(employee);
             var changes = await _context.SaveChangesAsync();
             Debug.WriteLine("Changes saved = " + changes);
-            /*
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
-            */
         }
 
 

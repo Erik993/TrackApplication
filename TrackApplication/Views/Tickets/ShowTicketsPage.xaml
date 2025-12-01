@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrackApplication.Views.Tickets.ShowTicketsPage"
+             Title="ShowTicketsPage">
+    
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="10">
+
+            <!-- Back button -->
+            <Button Text="Back"
+                    BackgroundColor="LightGray"
+                    TextColor="Black"
+                    Clicked="GoToBackToTicketPageButtonClicked" />
+
+            <!-- CollectionView for tickets -->
+            <CollectionView ItemsSource="{Binding Tickets}">
+
+                <!-- Layout: 2 columns for better readability -->
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="2" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="8"
+                                Padding="20"
+                                Stroke="LightGray"
+                                StrokeShape="RoundRectangle 8"
+                                BackgroundColor="FloralWhite">
+
+                            <VerticalStackLayout Spacing="6">
+
+                                <!-- Title -->
+                                <Label Text="{Binding Title}"
+                                       FontSize="18"
+                                       FontAttributes="Bold" />
+
+                                <!-- Description (shortened) -->
+                                <Label Text="{Binding Description}"
+                                       FontSize="12"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="2" />
+
+                                <!-- Creator -->
+                                <Label Text="{Binding CreatedBy.UserName, StringFormat='Created by: {0}'}"
+                                       FontSize="12"
+                                       TextColor="DarkBlue" />
+
+                                <!-- Priority -->
+                                <Label Text="{Binding Priority, StringFormat='Priority: {0}'}"
+                                       FontSize="12"
+                                       TextColor="DarkRed" />
+
+                                <!-- Status -->
+                                <Label Text="{Binding Status, StringFormat='Status: {0}'}"
+                                       FontSize="12"
+                                       TextColor="DarkGreen" />
+
+                                <!-- Is Resolved -->
+                                <Label Text="{Binding IsResolved, StringFormat='Resolved? {0}'}"
+                                       FontSize="12"
+                                       TextColor="Gray" />
+
+                                <!-- Delete -->
+                                <Button Text="Delete"
+                                        BackgroundColor="BurlyWood"
+                                        TextColor="Black"
+                                        Command="{Binding BindingContext.DeleteTicketCommand, Source={x:Reference ShowTicketsPage}}"
+                                        CommandParameter="{Binding .}" />
+
+                                <!-- Edit -->
+                                <Button Text="Edit"
+                                        BackgroundColor="LightBlue"
+                                        TextColor="Black"
+                                        Command="{Binding BindingContext.GoToEditTicketCommand, Source={x:Reference ShowTicketsPage}}"
+                                        CommandParameter="{Binding TicketID}" />
+
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

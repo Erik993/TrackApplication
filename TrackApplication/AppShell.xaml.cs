@@ -1,5 +1,6 @@
 ﻿using TrackApplication.Views.Employees;
 using TrackApplication.Views.ItSupports;
+using TrackApplication.Views.Tickets;
 
 namespace TrackApplication
 {
@@ -26,6 +27,11 @@ namespace TrackApplication
             Routing.RegisterRoute(nameof(AddItSupportPage), typeof(AddItSupportPage));
             Routing.RegisterRoute(nameof(ShowItSupportsPage), typeof(ShowItSupportsPage));
             Routing.RegisterRoute(nameof(EditItSupportPage), typeof(EditItSupportPage));
+
+            //Ticket pages registered
+            Routing.RegisterRoute(nameof(AddTicketPage), typeof(AddTicketPage));
+            Routing.RegisterRoute(nameof(ShowTicketsPage), typeof(ShowTicketsPage));
+            Routing.RegisterRoute(nameof(EditTicketPage), typeof(EditTicketPage));
 
 
 
