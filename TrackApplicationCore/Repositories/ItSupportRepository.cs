@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using TrackApplicationCore.Interfaces;
 using TrackApplicationData.DbContextData;
 using TrackApplicationData.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace TrackApplicationCore.Repositories;
 
@@ -21,10 +22,19 @@ public class ItSupportRepository : IItSupportRepository
 
     public async Task<ITSupport?> GetByIdAsync(int id) => await _context.ITSupports.FindAsync(id);
 
+
     public async Task AddAsync(ITSupport itSupport)
     {
+        /*
         await _context.ITSupports.AddAsync(itSupport);
         await _context.SaveChangesAsync();
+        */
+
+        Debug.WriteLine("Adding ITSupport: " + itSupport.UserName);
+        await _context.ITSupports.AddAsync(itSupport);
+        var changes = await _context.SaveChangesAsync();
+        Debug.WriteLine("SaveChangesAsync returned: " + changes);
+
     }
 
     public async Task UpdateAsync(ITSupport itSupport)

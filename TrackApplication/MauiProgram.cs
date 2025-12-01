@@ -43,7 +43,7 @@ namespace TrackApplication
     		builder.Logging.AddDebug();
 #endif
 
-            builder.Services.AddDbContext<ApplicationContext>();
+
 
 
             //To debug context
@@ -56,12 +56,13 @@ namespace TrackApplication
             });*/
 
 
+            builder.Services.AddDbContext<ApplicationContext>();
 
             //------------View page registration-------------------
-            
+
             builder.Services.AddTransient<MainPage>();
 
-            //for update navigation funtionality
+            //for navigation funtionality, is used in update functionality
             builder.Services.AddSingleton<INavigationService, NavigationService>();
 
             //Employee
@@ -80,7 +81,7 @@ namespace TrackApplication
 
 
 
-            //------------ViewMode, State, Repo registration-----------
+            //------------ViewModel, State, Repo registration-----------
             //Employee
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<EmployeeViewModel>();
@@ -89,7 +90,7 @@ namespace TrackApplication
 
             //ITSupport
             builder.Services.AddScoped<IItSupportRepository, ItSupportRepository>();
-            builder.Services.AddTransient<ItSupportViewModel>();
+            builder.Services.AddScoped<ItSupportViewModel>();
             builder.Services.AddSingleton<ItSupportState>();
             
 

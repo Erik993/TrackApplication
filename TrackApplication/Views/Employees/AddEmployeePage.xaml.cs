@@ -26,8 +26,6 @@ public partial class AddEmployeePage : ContentPage
     private async void GoBackToEmployeePageClicked(object sender, EventArgs e)
 	{
         Debug.WriteLine("back to empl page");
-        //await Shell.Current.GoToAsync(nameof(EmployeePage));
-        //await Shell.Current.GoToAsync("//EmployeePage");
         await Shell.Current.GoToAsync("..");
     }
 

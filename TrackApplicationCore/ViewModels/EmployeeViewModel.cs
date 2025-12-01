@@ -103,7 +103,9 @@ public partial class EmployeeViewModel : ObservableObject
 
         _state.Employees.Clear();
         foreach (var e in list)
+        {
             _state.Employees.Add(e);
+        }
     }
 
 

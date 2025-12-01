@@ -16,7 +16,16 @@ public partial class ItSupportViewModel :ObservableObject
     private readonly IItSupportRepository _repository;
     private readonly ItSupportState _state;
 
-    public ObservableCollection<ITSupport> ItSupports { get; set; } = new();
+    //property is used in GoToEditEmployee method. without it shell navigation does not works. 
+    private readonly INavigationService _navigation;
+
+    //public ObservableCollection<ITSupport> ItSupports { get; set; } = new();
+
+    public ObservableCollection<ITSupport> ItSupports => _state.ItSupports;
+
+
+    //collection with roles from enum
+    public ObservableCollection<Role> Roles { get; } = new();
 
     [ObservableProperty]
     private string newUserName = string.Empty;
@@ -30,14 +39,43 @@ public partial class ItSupportViewModel :ObservableObject
     [ObservableProperty]
     private Role? newSpecialization = null;
 
+
+    /*Fields for Editing the element*/
+    [ObservableProperty]
+    private Employee? selectedItSupport;
+
+    [ObservableProperty]
+    private string editUserName;
+
+    [ObservableProperty]
+    private string editEmail;
+
+    [ObservableProperty]
+    private bool editIsActive;
+
+    [ObservableProperty]
+    private Role? editSpecialization = null;
+    /*--------------------*/
+
+
+
+
     public event Func<string, Task>? ItSupportAdded;
     public event Func<ITSupport, Task>? ItSupportDeleted;
     public event Func<ITSupport, Task>? ItSupportUpdated;
 
-    public ItSupportViewModel(IItSupportRepository repository, ItSupportState state)
+    public ItSupportViewModel(IItSupportRepository repository, ItSupportState state, INavigationService navigation)
     {
         _repository = repository;
         _state = state;
+        _navigation = navigation;
+
+        //populate Roles collection with options from enum. enum is in model
+        foreach(var role in Enum.GetValues(typeof(Role)).Cast<Role>())
+        {
+            Roles.Add(role);
+        }
+
 
         LoadItSupports();
     }
@@ -48,22 +86,22 @@ public partial class ItSupportViewModel :ObservableObject
     [RelayCommand]
     public async Task LoadItSupports()
     {
-        ItSupports.Clear();
-
         var list = await _repository.GetAllAsync();
+
+        _state.ItSupports.Clear();
         foreach(var e in list)
         {
-            ItSupports.Add(e);
+            _state.ItSupports.Add(e);
         }
-
-        _state.ItSupports = ItSupports;
     }
 
 
     [RelayCommand]
     private async Task AddItSupport()
     {
-        if (!string.IsNullOrEmpty(NewUserName) && !string.IsNullOrEmpty(NewEmail) && newSpecialization!=null)
+        Debug.WriteLine("AddItSupportCommand EXECUTED");
+        Debug.WriteLine($"Check values: user={NewUserName}, email={NewEmail}, spec={newSpecialization}");
+        if (!string.IsNullOrEmpty(NewUserName) && !string.IsNullOrEmpty(NewEmail) && newSpecialization != null)
         {
             var itSupport = new ITSupport(NewUserName, NewEmail, NewIsActive, newSpecialization.Value);
             Debug.WriteLine($"new employee: {itSupport.UserName}, {itSupport.Email}");
@@ -82,9 +120,6 @@ public partial class ItSupportViewModel :ObservableObject
         NewEmail = string.Empty;
         newSpecialization = null;
     }
-
-
-
 
 }
 

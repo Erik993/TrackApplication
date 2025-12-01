@@ -29,9 +29,9 @@
 
                                 <Label Text="{Binding UserName}" FontSize="18" FontAttributes="Bold" />
                                 <Label Text="{Binding Email}" FontSize="14" />
-                                <Label Text="{Binding IsActive, StringFormat='Active: {0}'}"
+                                <Label Text="{Binding IsActive, StringFormat='Is Active? {0}'}"
                                        FontSize="12" TextColor="Green" />
-                                <Label Text="TODO: SPECIALIZATION SHOULD BE THERE" TextColor="Red"/>
+                                <Label Text="{Binding Specialization}" TextColor="Red"/>
 
                                 <Button Text="Delete"
                                         BackgroundColor="BurlyWood"
