@@ -48,13 +48,13 @@ public partial class EmployeeViewModel : ObservableObject
 
     /*Fields for Editing the element*/
     [ObservableProperty]
-    private Employee? selectedEmployee;
+    private Employee? selectedEmployee = null;
 
     [ObservableProperty]
-    private string editUserName;
+    private string editUserName = string.Empty;
 
     [ObservableProperty]
-    private string editEmail;
+    private string editEmail = string.Empty;
 
     [ObservableProperty]
     private bool editIsActive;

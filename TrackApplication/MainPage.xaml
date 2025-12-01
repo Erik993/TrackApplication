@@ -23,7 +23,7 @@
            BackgroundColor="Transparent"
            HorizontalOptions="Center"/>
 
-        <Button Grid.Row="1" Grid.ColumnSpan="2" Text="Generate 20 Test ITSupport and 20 Employee Records" Command="{Binding GenerateTestDataCommand}" />
+        <Button Grid.Row="1" Grid.ColumnSpan="2" Text="Create 5 test ITSupport and 5 test Employee Records" Command="{Binding GenerateTestDataCommand}" />
         <Button Grid.Row="2" Grid.ColumnSpan="2" Text="Delete ALL Employee and IT Support records" BackgroundColor="Red" Command="{Binding DeleteAllEmployeesAndItSupportsCommand}" />
         
         

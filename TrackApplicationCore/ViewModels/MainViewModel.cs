@@ -29,8 +29,8 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     public async Task GenerateTestData()
     {
-        await _testDataService.CreateEmployeeAsync(20);
-        await _testDataService.CreateITSupportAsync(20);
+        await _testDataService.CreateEmployeeAsync(5);
+        await _testDataService.CreateITSupportAsync(5);
 
         await _empVM.LoadEmployees();
         await _itVM.LoadItSupports();

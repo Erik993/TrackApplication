@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 using TrackApplication.Services;
 using TrackApplication.Views.Employees;
 using TrackApplication.Views.ItSupports;
@@ -56,7 +58,17 @@ namespace TrackApplication
             });*/
 
 
-            builder.Services.AddDbContext<ApplicationContext>();
+            //connection string loading
+
+            //need to manually load appsettings.json, otherwise i can't extract connection string
+            //code from AI, chatpgt
+            builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            Debug.WriteLine($"Connection string: {connectionString}");
+
+            builder.Services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlServer(connectionString));
 
             //------------View page registration-------------------
 

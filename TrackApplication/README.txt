@@ -22,7 +22,7 @@ Libraries installed:
 1) CommunityToolkit.Mvvm -Version 8.4.0 to use it instead of manual INotifyPropertyChange
 2) Microsoft.EntityFrameworkCore.InMemory - for test project
 3) Bogus. https://github.com/bchavez/Bogus to populate DB with fake data
-
+4) Microsoft.Extensions.Configuration.Json
 
 How the update functionality works, data flow:
 1) ShowPage has button that calls the command, as example:
