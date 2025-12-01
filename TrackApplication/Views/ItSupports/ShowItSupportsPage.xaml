@@ -39,8 +39,12 @@
                                         Command="{Binding BindingContext.DeleteItSuppportCommand, Source={x:Reference ShowItSuppPage}}"
                                         CommandParameter="{Binding .}" />
 
+                                <!--<Button Text="Edit"
+                                        Clicked="GoToEditItSupportPageButtonClicked" />-->
+
                                 <Button Text="Edit"
-                                        Clicked="GoToEditItSupportPageButtonClicked" />
+                                        Command="{Binding BindingContext.GoToEditItSupportCommand, Source={x:Reference ShowItSuppPage}}"
+                                        CommandParameter="{Binding UserId}" />
 
                             </VerticalStackLayout>
                         </Border>

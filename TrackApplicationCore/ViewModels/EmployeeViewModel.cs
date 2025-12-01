@@ -145,6 +145,7 @@ public partial class EmployeeViewModel : ObservableObject
         
         await LoadEmployees();
 
+        //if object was deleted, invoke event to show display alert window
         if(EmployeeDeleted != null)
         {
             await EmployeeDeleted.Invoke(employee);
@@ -166,7 +167,7 @@ public partial class EmployeeViewModel : ObservableObject
 
         SelectedEmployee.IsActive = EditIsActive;
 
-        //update record in database
+        //update record in db
         await _repository.UpdateAsync(SelectedEmployee);
 
         //reload collection for UI

@@ -61,9 +61,15 @@ namespace TrackApplication
             //------------View page registration-------------------
 
             builder.Services.AddTransient<MainPage>();
+            
 
             //for navigation funtionality, is used in update functionality
             builder.Services.AddSingleton<INavigationService, NavigationService>();
+
+            //service for dummy data creation
+            builder.Services.AddSingleton<ICreateTestUserService, TestUserService>();
+
+
 
             //Employee
             builder.Services.AddTransient<EmployeePage>();
@@ -82,6 +88,11 @@ namespace TrackApplication
 
 
             //------------ViewModel, State, Repo registration-----------
+
+            //Main
+            builder.Services.AddTransient<MainViewModel>();
+
+
             //Employee
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<EmployeeViewModel>();

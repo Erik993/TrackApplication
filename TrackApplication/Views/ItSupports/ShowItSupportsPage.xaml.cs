@@ -29,7 +29,7 @@ public partial class ShowItSupportsPage : ContentPage
 
     private Task OnItSuppportDeleted(ITSupport itsupport)
     {
-        Debug.WriteLine("clicked delete");
+        Debug.WriteLine("clicked delete itsupport");
         return DisplayAlertAsync("Deleted", $"IT Support {itsupport.UserName} was deleted", "OK");
     }
 

@@ -49,5 +49,12 @@ public class ItSupportRepository : IItSupportRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task DeleteAllAsync()
+    {
+        var allITSupports = await _context.ITSupports.ToListAsync();
+        _context.ITSupports.RemoveRange(allITSupports);
+        await _context.SaveChangesAsync();
+    }
+
 }
 

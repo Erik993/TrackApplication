@@ -42,7 +42,7 @@ public partial class ItSupportViewModel :ObservableObject
 
     /*Fields for Editing the element*/
     [ObservableProperty]
-    private Employee? selectedItSupport;
+    private ITSupport? selectedItSupport;
 
     [ObservableProperty]
     private string editUserName;
@@ -82,7 +82,6 @@ public partial class ItSupportViewModel :ObservableObject
 
 
 
-    //TODO - check if func works, newSpecializtaion is enum
     [RelayCommand]
     public async Task LoadItSupports()
     {
@@ -100,10 +99,10 @@ public partial class ItSupportViewModel :ObservableObject
     private async Task AddItSupport()
     {
         Debug.WriteLine("AddItSupportCommand EXECUTED");
-        Debug.WriteLine($"Check values: user={NewUserName}, email={NewEmail}, spec={newSpecialization}");
-        if (!string.IsNullOrEmpty(NewUserName) && !string.IsNullOrEmpty(NewEmail) && newSpecialization != null)
+        Debug.WriteLine($"Check values: user={NewUserName}, email={NewEmail}, spec={NewSpecialization}");
+        if (!string.IsNullOrEmpty(NewUserName) && !string.IsNullOrEmpty(NewEmail) && NewSpecialization != null)
         {
-            var itSupport = new ITSupport(NewUserName, NewEmail, NewIsActive, newSpecialization.Value);
+            var itSupport = new ITSupport(NewUserName, NewEmail, NewIsActive, NewSpecialization.Value);
             Debug.WriteLine($"new employee: {itSupport.UserName}, {itSupport.Email}");
 
             await _repository.AddAsync(itSupport);
@@ -118,8 +117,76 @@ public partial class ItSupportViewModel :ObservableObject
         //clear inputs
         NewUserName = string.Empty;
         NewEmail = string.Empty;
-        newSpecialization = null;
+        NewSpecialization = null;
     }
+
+
+    [RelayCommand]
+    private async Task DeleteItSuppport(ITSupport itsupport)
+    {
+        Debug.WriteLine($"deleting {itsupport.UserName}");
+        await _repository.DeleteAsync(itsupport);
+
+        await LoadItSupports();
+
+        if(ItSupportDeleted != null)
+        {
+            await ItSupportDeleted.Invoke(itsupport);
+        }
+    }
+
+    [RelayCommand]
+    private async Task UpdateItSupport()
+    {
+        Debug.Write("update it support command is executed");
+
+        if (SelectedItSupport == null)
+            return;
+
+        if (!string.IsNullOrWhiteSpace(EditUserName))
+            SelectedItSupport.UserName = EditUserName;
+
+        if (!string.IsNullOrWhiteSpace(EditEmail))
+            SelectedItSupport.Email = EditEmail;
+
+        if (EditSpecialization != null)
+            SelectedItSupport.Specialization = EditSpecialization.Value;
+
+        SelectedItSupport.IsActive = EditIsActive;
+
+        await _repository.UpdateAsync(SelectedItSupport);
+
+        await LoadItSupports();
+
+        //reset edited fields
+        EditUserName = string.Empty;
+        EditEmail = string.Empty;
+        EditSpecialization = null;
+
+        if (ItSupportUpdated != null)
+            await ItSupportUpdated.Invoke(SelectedItSupport);
+    }
+
+
+    public async Task LoadItSupportForEdit(int itsupportId)
+    {
+        SelectedItSupport = await _repository.GetByIdAsync(itsupportId);
+
+        if(SelectedItSupport != null)
+        {
+            EditUserName = SelectedItSupport.UserName;
+            EditEmail = SelectedItSupport.Email;
+            EditIsActive = SelectedItSupport.IsActive;
+            EditSpecialization = SelectedItSupport.Specialization;
+        }
+    }
+
+    [RelayCommand]
+    public async Task GoToEditItSupport(int itsupportId)
+    {
+        await _navigation.GoToAsync($"EditItSupportPage?itsupportId={itsupportId}");
+    }
+
 
 }
 

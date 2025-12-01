@@ -22,19 +22,6 @@
         <Label Grid.Row ="1" Grid.ColumnSpan="2" Text="IT Support page" FontSize="24"></Label>
         <Button Grid.Row="2" Grid.Column="0" Text="Show all It Supports" Clicked="GoToShowItSupportsButtonClicked"></Button>
         <Button Grid.Row="2" Grid.Column="1" Text="Add IT Support" Clicked="GoToAddItSupportButtonClicked"></Button>
-        <Button Grid.Row="4" Grid.Column="0" Text="Main Page" Clicked="GoToMainPageButtonClicked"></Button>
-        <!--
-        <Button Grid.Row="2" Grid.Column="1" Text="Add Employee" Clicked="AddEmployeeButtonClicked"></Button>
--->
-
-        <!--
-        <Label Grid.Row="3" Grid.ColumnSpan="2" Text="Password generator"></Label>
-        <Label Grid.Row="4" Grid.Column="0" Text="Password length: "></Label>
-        <Stepper Grid.Row="4" Grid.Column="1" Minimum="4" Maximum="10" Value="{Binding PasswordLength}"></Stepper>
-        <Label Grid.Row="5" Grid.Column="0" Text="{Binding PasswordLength}" BackgroundColor="Aqua"></Label>
-        <Button Grid.Row="5" Grid.Column="1" Text="Generate password" Command="{Binding GeneratePasswordCommand}"></Button>
-        <Label Grid.Row="6" Grid.Column="0" Text="{Binding GeneratedPassword}" BackgroundColor="Red"></Label>
-        -->
 
     </Grid>
 

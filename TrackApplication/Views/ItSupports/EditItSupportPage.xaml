@@ -7,11 +7,12 @@
     <VerticalStackLayout Padding="20" Spacing="15">
         <Label Text="Edit an IT Support" FontSize="24" HorizontalOptions="Center"/>
 
-        <Entry Placeholder="Name" Text="{Binding NewUserName, Mode=TwoWay}"/>
-        <Entry Placeholder="Email" Text="{Binding NewEmail, Mode=TwoWay}"/>
-        <Switch IsToggled="{Binding NewIsActive}"/>
+        <Entry Placeholder="Name" Text="{Binding EditUserName, Mode=TwoWay}"/>
+        <Entry Placeholder="Email" Text="{Binding EditEmail, Mode=TwoWay}"/>
+        <Switch IsToggled="{Binding EditIsActive}"/>
+        <Picker Title="Select Specialization"  ItemsSource="{Binding Roles}" SelectedItem="{Binding EditSpecialization, Mode=TwoWay}"></Picker>
 
-        <Button Text="Update Employee" Command="{Binding EditItSupportCommand}"/>
+        <Button Text="Update Employee" Command="{Binding UpdateItSupportCommand}"/>
         <Button Text="Go Back to Employees Page" Clicked="GoBackToItSupportShowPageClicked"/>
     </VerticalStackLayout>
     

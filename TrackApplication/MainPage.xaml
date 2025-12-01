@@ -23,9 +23,12 @@
            BackgroundColor="Transparent"
            HorizontalOptions="Center"/>
 
-        <!--<Button Grid.Row="1" Grid.Column="0" Text="Employees" Clicked="GoToEmployeePageButtonClicked"/>
+        <Button Grid.Row="1" Grid.ColumnSpan="2" Text="Generate 20 Test ITSupport and 20 Employee Records" Command="{Binding GenerateTestDataCommand}" />
+        <Button Grid.Row="2" Grid.ColumnSpan="2" Text="Delete ALL Employee and IT Support records" BackgroundColor="Red" Command="{Binding DeleteAllEmployeesAndItSupportsCommand}" />
         
-            Clicked="EmployeeButtonClicked"/
+        
+           <!--
+        Clicked="EmployeeButtonClicked"/
             <Button Grid.Row="2" Grid.Column="1" Text="ITSupports" Clicked="ITSupportButtonClicked"/>
         <Button Grid.Row="3" Grid.Column="0" Text="Tickets" Clicked="TicketButtonClicked"/>
         <Button Grid.Row="3" Grid.Column="1" Text="Assignments" Clicked="AssignmentButtonClicked"/>

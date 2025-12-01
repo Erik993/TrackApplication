@@ -10,7 +10,6 @@
         <Entry Placeholder="Name" Text="{Binding NewUserName, Mode=TwoWay}"/>
         <Entry Placeholder="Email" Text="{Binding NewEmail, Mode=TwoWay}"/>
         <Switch IsToggled="{Binding NewIsActive}"/>
-        <!--<Picker /> TODO: AddBinding to select the role -->
         <Picker Title="Select Specialization"  ItemsSource="{Binding Roles}" SelectedItem="{Binding NewSpecialization, Mode=TwoWay}"></Picker>
 
         <Button Text="Save IT Support" Command="{Binding AddItSupportCommand}"/>

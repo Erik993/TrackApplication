@@ -33,7 +33,7 @@ public partial class EditEmployeePage : ContentPage
     }
 
 
-    ///new
+    //method from AI - chatgpt
     protected override async void OnAppearing()
     {
         Debug.WriteLine($"Edit Page Appearing, ID = {EmployeeId}");

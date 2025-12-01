@@ -12,6 +12,7 @@ public interface IItSupportRepository
     Task AddAsync(ITSupport itSupport);
     Task UpdateAsync(ITSupport itSupport);
     Task DeleteAsync(ITSupport itSupport);
+    Task DeleteAllAsync();
 }
 
 

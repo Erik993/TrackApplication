@@ -9,11 +9,20 @@ namespace TrackApplication
         //Injected:
         //EmployeeViewModel employeeVm
         //Shell automatically sends ViewModel to constructor
+
+        /*
         public MainPage(EmployeeViewModel employeeVm)
         {
             InitializeComponent();
             BindingContext = employeeVm;
+        }*/
+
+        public MainPage(MainViewModel mainVm)
+        {
+            InitializeComponent();
+            BindingContext = mainVm;
         }
+
 
         public async void GoToEmployeePageButtonClicked(object sender, EventArgs e)
         {
