@@ -36,6 +36,7 @@ public class Ticket
 
     public Ticket() { }
 
+    
     public Ticket(string title, string description, PriorityEnum priority, Employee createdBy, StatusEnum status = StatusEnum.Open, bool isResolved = false)
     {
         Title = title;
@@ -46,6 +47,7 @@ public class Ticket
         Status = status;
         IsResolved = isResolved;
     }
+
 }
 public enum StatusEnum
 {

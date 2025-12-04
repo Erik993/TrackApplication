@@ -1,14 +1,19 @@
 using System.Diagnostics;
+using TrackApplicationCore.States;
 using TrackApplicationCore.ViewModels;
 
 namespace TrackApplication.Views.ItSupports;
 
 public partial class ItSupportPage : ContentPage
 {
-	public ItSupportPage(ItSupportViewModel vm)
+	//TODO: check state, before redirect to show page
+	private readonly ItSupportState _state;
+	public ItSupportPage(ItSupportViewModel vm, ItSupportState state)
 	{
 		InitializeComponent();
 		BindingContext = vm;
+
+		_state = state;
 	}
 
 
@@ -20,8 +25,8 @@ public partial class ItSupportPage : ContentPage
 
 	public async void GoToShowItSupportsButtonClicked(object sender, EventArgs e)
 	{
-        Debug.WriteLine("redirecting to show it supports page");
-        await Shell.Current.GoToAsync(nameof(ShowItSupportsPage));
+		Debug.WriteLine("redirecting to show it supports page");
+		await Shell.Current.GoToAsync(nameof(ShowItSupportsPage));
     }
 
 	public async void GoToMainPageButtonClicked(object sender, EventArgs e)

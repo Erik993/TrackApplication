@@ -81,7 +81,7 @@ namespace TrackApplication
 
             //service for dummy data creation
             builder.Services.AddSingleton<ICreateTestUserService, TestUserService>();
-
+            builder.Services.AddSingleton<ICreateTestTicketService, TestTicketService>();
 
 
             //Employee pages

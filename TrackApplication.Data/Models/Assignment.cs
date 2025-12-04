@@ -19,8 +19,9 @@ public class Assignment
     public ITSupport ITSupport { get; set; } = null!;
 
 
-    public int TicktId { get; set; }
-    [ForeignKey(nameof(ITSupportId))]
+    public int TicketId { get; set; }
+
+    [ForeignKey(nameof(TicketId))]
     public Ticket Ticket { get; set; } = null!;
 
 
@@ -34,8 +35,9 @@ public class Assignment
     {
         //AssignedAt = DateTime.Now;
         ITSupport = support;
+        ITSupportId = support.UserId;
         Ticket = ticket;
+        TicketId = ticket.TicketID;
         Comment = comment;
     }
-
 }

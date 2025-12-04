@@ -1,4 +1,6 @@
+
 using System.Diagnostics;
+using TrackApplicationCore.States;
 using TrackApplicationCore.ViewModels;
 using TrackApplicationData.Models;
 
@@ -6,13 +8,17 @@ namespace TrackApplication.Views.Employees;
 
 public partial class ShowEmployeesPage : ContentPage
 {
+    private readonly EmployeeViewModel _vm;
 	public ShowEmployeesPage(EmployeeViewModel vm)
 	{
 		InitializeComponent();
 		BindingContext = vm;
 
 		vm.EmployeeDeleted += OnEmployeeDeleted;
+
+        _vm = vm;
 	}
+
 
 	private async void GoToEditEmployeePageButtonClicked(object sender, EventArgs e)
 	{
@@ -38,7 +44,6 @@ public partial class ShowEmployeesPage : ContentPage
 	{
 		Debug.WriteLine("clicked delete");
 	}
-
 
 
 }

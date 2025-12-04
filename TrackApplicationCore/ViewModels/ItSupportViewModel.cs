@@ -16,7 +16,7 @@ public partial class ItSupportViewModel :ObservableObject
     private readonly IItSupportRepository _repository;
     private readonly ItSupportState _state;
 
-    //property is used in GoToEditEmployee method. without it shell navigation does not works. 
+    //property is used in GoToEditItSupport method. without it shell navigation does not works. 
     private readonly INavigationService _navigation;
 
     //public ObservableCollection<ITSupport> ItSupports { get; set; } = new();
@@ -75,7 +75,6 @@ public partial class ItSupportViewModel :ObservableObject
         {
             Roles.Add(role);
         }
-
 
         LoadItSupports();
     }
@@ -167,7 +166,7 @@ public partial class ItSupportViewModel :ObservableObject
             await ItSupportUpdated.Invoke(SelectedItSupport);
     }
 
-
+    //load elements data to display in edit page existing values
     public async Task LoadItSupportForEdit(int itsupportId)
     {
         SelectedItSupport = await _repository.GetByIdAsync(itsupportId);

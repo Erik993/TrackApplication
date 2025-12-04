@@ -12,6 +12,7 @@ public partial class ShowTicketsPage : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
 
+        vm.TicketDeleted += OnTicketDeleted;
 	}
     private async void GoToBackToTicketPageButtonClicked(object sender, EventArgs e)
     {

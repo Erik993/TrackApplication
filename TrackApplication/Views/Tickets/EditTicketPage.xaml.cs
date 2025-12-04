@@ -16,7 +16,10 @@ public partial class EditTicketPage : ContentPage
 		InitializeComponent();
         _vm = vm;
 		BindingContext = vm;
-	}
+
+        vm.TicketUpdated += OnTicketUpdated;
+
+    }
 
     private async void GoBackToTicketsShowPageClicked(object sender, EventArgs e)
     {
@@ -26,14 +29,13 @@ public partial class EditTicketPage : ContentPage
 
     //method from AI - chatgpt
 
-    //TODO: uncomment when LoadTicketForEdit is ready
-    /*
+
     protected override async void OnAppearing()
     {
         Debug.WriteLine($"Edit Page Appearing, ID = {TicketId}");
         base.OnAppearing();
         await _vm.LoadTicketForEdit(TicketId);
-    }*/
+    }
 
     private async Task OnTicketUpdated(Ticket ticket)
     {

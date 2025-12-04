@@ -75,7 +75,7 @@ public partial class EmployeeViewModel : ObservableObject
         LoadEmployees();
 
         //if this is printed when the page loads - DI is injecting
-        Debug.WriteLine("ViewModel created with repo: " + repository.GetType().Name);
+        //Debug.WriteLine("ViewModel created with repo: " + repository.GetType().Name);
     }
 
     /*

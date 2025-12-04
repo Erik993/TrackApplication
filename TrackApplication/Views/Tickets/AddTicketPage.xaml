@@ -24,22 +24,22 @@
         <Picker Title="Select Creator"
                 ItemsSource="{Binding Employees}"
                 ItemDisplayBinding="{Binding UserName}"
-                SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}" />
+                SelectedItem="{Binding NewCreatedBy, Mode=TwoWay}" />
 
         <Picker Title="Select Priority"
-                ItemsSource="{Binding PriorityValues}"
-                SelectedItem="{Binding SelectedPriority, Mode=TwoWay}" />
+                ItemsSource="{Binding Statuses}"
+                SelectedItem="{Binding NewStatus, Mode=TwoWay}" />
 
         <Picker Title="Select Status"
-                ItemsSource="{Binding StatusValues}"
-                SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" />
+                ItemsSource="{Binding Priorities}"
+                SelectedItem="{Binding NewPriority, Mode=TwoWay}" />
 
         <HorizontalStackLayout Spacing="10">
             <Label Text="Is Resolved?" VerticalOptions="Center" />
-            <Switch IsToggled="{Binding IsResolved, Mode=TwoWay}" />
+            <Switch IsToggled="{Binding NewIsResolved, Mode=TwoWay}" />
         </HorizontalStackLayout>
 
-        <Button Text="Save Ticket"
+        <Button Text="Create Ticket"
                 Command="{Binding AddTicketCommand}"
                 BackgroundColor="Green"
                 TextColor="White" />

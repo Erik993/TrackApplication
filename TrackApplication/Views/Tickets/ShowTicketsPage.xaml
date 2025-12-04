@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TrackApplication.Views.Tickets.ShowTicketsPage"
+             x:Name="ShowTcktPage"
              Title="ShowTicketsPage">
     
     <ScrollView>
@@ -66,14 +67,14 @@
                                 <Button Text="Delete"
                                         BackgroundColor="BurlyWood"
                                         TextColor="Black"
-                                        Command="{Binding BindingContext.DeleteTicketCommand, Source={x:Reference ShowTicketsPage}}"
+                                        Command="{Binding BindingContext.DeleteTicketCommand, Source={x:Reference ShowTcktPage}}"
                                         CommandParameter="{Binding .}" />
 
                                 <!-- Edit -->
                                 <Button Text="Edit"
                                         BackgroundColor="LightBlue"
                                         TextColor="Black"
-                                        Command="{Binding BindingContext.GoToEditTicketCommand, Source={x:Reference ShowTicketsPage}}"
+                                        Command="{Binding BindingContext.GoToEditTicketCommand, Source={x:Reference ShowTcktPage}}"
                                         CommandParameter="{Binding TicketID}" />
 
                             </VerticalStackLayout>

@@ -14,6 +14,8 @@ public partial class AddTicketPage : ContentPage
     {
         InitializeComponent();
         BindingContext = vm;
+        vm.TicketAdded += OnTicketAdded;
+
     }
 
 
@@ -23,9 +25,9 @@ public partial class AddTicketPage : ContentPage
         await Shell.Current.GoToAsync("..");
     }
 
-    private async Task OnTicketAdded(Ticket ticket)
+    private async Task OnTicketAdded(string ticketTitle)
     {
-        await DisplayAlertAsync("Success", $"Ticket {ticket.Title} added!", "OK");
+        await DisplayAlertAsync("Success", $"Ticket {ticketTitle} added!", "OK");
         await Shell.Current.GoToAsync("..");
     }
 

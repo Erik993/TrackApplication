@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using TrackApplicationCore.Interfaces;
-using TrackApplicationData.Models;
 using TrackApplicationData.DbContextData;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
+using TrackApplicationData.Models;
 
 namespace TrackApplicationCore.Repositories;
 
@@ -18,11 +19,32 @@ public class TicketRepository : ITicketRepository
         _context = context;
     }
 
+    /*
     public async Task AddAsync(Ticket ticket)
     {
         await _context.Tickets.AddAsync(ticket);
         await _context.SaveChangesAsync();
+    }*/
+
+    public async Task AddAsync(Ticket ticket)
+    {
+        try
+        {
+            //if the employee exists, dont insert it. Line of code from AI
+            _context.Attach(ticket.CreatedBy);
+
+            await _context.Tickets.AddAsync(ticket);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error adding ticket. Title: {ticket.Title}, CreatedById: {ticket.CreatedById}");
+            Debug.WriteLine("EXCEPTION: " + ex);
+            Debug.WriteLine("INNER: " + ex.InnerException?.Message);
+            throw;
+        }
     }
+
 
     public async Task DeleteAllAsync()
     {
