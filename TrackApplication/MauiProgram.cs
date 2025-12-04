@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using TrackApplication.Services;
+using TrackApplication.Views.Assignments;
 using TrackApplication.Views.Employees;
 using TrackApplication.Views.ItSupports;
 using TrackApplication.Views.Tickets;
@@ -102,39 +103,38 @@ namespace TrackApplication
             builder.Services.AddTransient<ShowTicketsPage>();
             builder.Services.AddTransient<EditTicketPage>();
 
+            //Assignment pages
+            builder.Services.AddTransient<AssignmentPage>();
+            builder.Services.AddTransient<AddAssignmentPage>();
+            builder.Services.AddTransient<ShowAssignmentsPage>();
+            builder.Services.AddTransient<EditAssignmentPage>();
+
 
             //------------ViewModel, State, Repo registration-----------
 
             //Main
             builder.Services.AddTransient<MainViewModel>();
 
-
             //Employee
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<EmployeeViewModel>();
             builder.Services.AddSingleton<EmployeeState>();
             
-
             //ITSupport
             builder.Services.AddScoped<IItSupportRepository, ItSupportRepository>();
             builder.Services.AddScoped<ItSupportViewModel>();
             builder.Services.AddSingleton<ItSupportState>();
             
-
             //Ticket
             builder.Services.AddScoped<ITicketRepository, TicketRepository>();
             builder.Services.AddTransient<TicketViewModel>();
             builder.Services.AddSingleton<TicketState>();
-            
-
-
 
             //Assignment
-            /*
             builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
             builder.Services.AddTransient<AssignmentViewModel>();
             builder.Services.AddSingleton<AssignmentState>();
-            */
+            
 
             return builder.Build();
         }

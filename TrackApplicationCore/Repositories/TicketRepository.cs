@@ -31,7 +31,18 @@ public class TicketRepository : ITicketRepository
         try
         {
             //if the employee exists, dont insert it. Line of code from AI
-            _context.Attach(ticket.CreatedBy);
+            //_context.Attach(ticket.CreatedBy);
+
+            //find out an employee from the context with the same id
+            var employee = await _context.Employees
+                .FirstOrDefaultAsync(e => e.UserId == ticket.CreatedById);
+
+            /*
+            if (employee == null)
+                throw new Exception($"Employee with ID {ticket.CreatedById} not found");
+            */
+            
+            ticket.CreatedBy = employee;
 
             await _context.Tickets.AddAsync(ticket);
             await _context.SaveChangesAsync();

@@ -14,11 +14,14 @@ public partial class ShowTicketsPage : ContentPage
 
         vm.TicketDeleted += OnTicketDeleted;
 	}
+
+    
     private async void GoToBackToTicketPageButtonClicked(object sender, EventArgs e)
     {
         Debug.WriteLine("redirecting back to it support page");
         await Shell.Current.GoToAsync("..");
     }
+
 
     private async void GoToEditTicketPageButtonClicked(object sender, EventArgs e)
     {

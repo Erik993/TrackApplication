@@ -3,7 +3,7 @@
 
 There following projects in solution:
 1) TrackApplication - MAUI application with UI (pages)
-2) TrackApplication - console app just to run migrations
+2) TrackApplication.MigratiobsRunner - console app just to run migrations
 3) TrackApplicationData - stores Models and context
 4) TrackApplicationCore - stores Viewmodels, Interfaces, Repositories, States
 5) Testproject - xUnit poject to test viewmodels, repositories, states (not ui)
@@ -17,7 +17,7 @@ There following projects in solution:
 
 
 ---Comments, what can be impoved or doesnot works as intended
-1) after element update, need to go back to main element page, then on show page, and element is hown updated.
+1) after element update, need to go back to main element page, then on show page, and element is shown updated.
 perhaps UI can't immediately show updated element data, so before-update data is shown
 
 

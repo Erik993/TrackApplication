@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrackApplication.Views.Assignments.EditAssignmentPage"
+             Title="EditAssignmentPage">
+    
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <Label Text="Edit Assignment"
+               FontSize="24"
+               HorizontalOptions="Center" />
+
+        <!-- Select IT Support -->
+        <Picker Title="Select IT Support"
+                ItemsSource="{Binding ITSupports}"
+                ItemDisplayBinding="{Binding UserName}"
+                SelectedItem="{Binding EditITSupResponsibleFor, Mode=TwoWay}" />
+
+        <!-- Select Ticket -->
+        <Picker Title="Select Ticket"
+                ItemsSource="{Binding Tickets}"
+                ItemDisplayBinding="{Binding Title}"
+                SelectedItem="{Binding EditTicket, Mode=TwoWay}" />
+
+        <!-- Comment -->
+        <Editor Placeholder="Comment"
+                AutoSize="TextChanges"
+                HeightRequest="100"
+                Text="{Binding EditComment, Mode=TwoWay}" />
+
+        <!-- Update Button -->
+        <Button Text="Update Assignment"
+                Command="{Binding UpdateAssignmentCommand}"
+                BackgroundColor="Green"
+                TextColor="White" />
+
+        <!-- Back Button -->
+        <Button Text="Back to Assignments"
+                Clicked="GoBackToAssignmentsShowPageClicked"/>
+
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrackApplication.Views.Assignments.AddAssignmentPage"
+             Title="AddAssignmentPage">
+    
+    
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <Label Text="Create New Assignment"
+               FontSize="24"
+               HorizontalOptions="Center"/>
+
+        <!-- Picker to select IT Support -->
+        <Picker Title="Select IT Support"
+                ItemsSource="{Binding ITSupports}"
+                ItemDisplayBinding="{Binding UserName}"
+                SelectedItem="{Binding NewITSupResponsibleFor, Mode=TwoWay}" />
+
+        <!-- Picker to select Ticket -->
+        <Picker Title="Select Ticket"
+                ItemsSource="{Binding Tickets}"
+                ItemDisplayBinding="{Binding Title}"
+                SelectedItem="{Binding NewTicket, Mode=TwoWay}" />
+
+        <!-- Optional comment -->
+        <Editor Placeholder="Comment"
+                AutoSize="TextChanges"
+                HeightRequest="100"
+                Text="{Binding NewComment, Mode=TwoWay}" />
+
+        <!-- Button "back" -->
+        <HorizontalStackLayout Spacing="10">
+            <Button Text="Create Assignment"
+                    Command="{Binding AddAssignmentCommand}"
+                    BackgroundColor="Green"
+                    TextColor="White" />
+
+            <Button Text="Back"
+                    Clicked="GoBackToAssignmentPageClicked"/>
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+
+</ContentPage>

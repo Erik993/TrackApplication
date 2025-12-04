@@ -6,9 +6,6 @@
 
     <VerticalStackLayout Padding="20" Spacing="15">
 
-        
-        <!--TODO: check draft-->
-        
         <Label Text="Create New Ticket"
                FontSize="24"
                HorizontalOptions="Center"/>

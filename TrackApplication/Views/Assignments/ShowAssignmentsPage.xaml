@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrackApplication.Views.Assignments.ShowAssignmentsPage"
+             x:Name="ShowAssntPage"
+             Title="ShowAssignmentsPage">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="10">
+
+            <!-- Back button -->
+            <Button Text="Back"
+                    BackgroundColor="LightGray"
+                    TextColor="Black"
+                    Clicked="GoToBackToAssignmentPageButtonClicked" />
+
+            <!-- CollectionView for assignments -->
+            <CollectionView ItemsSource="{Binding Assignments}">
+
+                <!-- Layout: 2 columns for readability -->
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="2" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="8"
+                                Padding="20"
+                                Stroke="LightGray"
+                                StrokeShape="RoundRectangle 8"
+                                BackgroundColor="LavenderBlush">
+
+                            <VerticalStackLayout Spacing="6">
+
+                                <!-- Ticket Title -->
+                                <Label Text="{Binding Ticket.Title}"
+                                       FontSize="16"
+                                       FontAttributes="Bold" />
+
+                                <!-- IT Support -->
+                                <Label Text="{Binding ITSupport.UserName, StringFormat='IT Support: {0}'}"
+                                       FontSize="12"
+                                       TextColor="DarkBlue" />
+
+                                <!-- Assigned Date -->
+                                <Label Text="{Binding AssignedAt, StringFormat='Assigned At: {0:MM/dd/yyyy HH:mm}'}"
+                                       FontSize="12"
+                                       TextColor="Gray" />
+
+                                <!-- Comment -->
+                                <Label Text="{Binding Comment}"
+                                       FontSize="12"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="2"
+                                       TextColor="DarkGreen" />
+
+                                <!-- Delete Button -->
+                                <Button Text="Delete"
+                                        BackgroundColor="BurlyWood"
+                                        TextColor="Black"
+                                        Command="{Binding BindingContext.DeleteAssignmentCommand, Source={x:Reference ShowAssntPage}}"
+                                        CommandParameter="{Binding .}" />
+
+                                <!-- Edit Button -->
+                                <Button Text="Edit"
+                                        BackgroundColor="LightBlue"
+                                        TextColor="Black"
+                                        Command="{Binding BindingContext.GoToEditAssignmentCommand, Source={x:Reference ShowAssntPage}}"
+                                        CommandParameter="{Binding AssignmentId}" />
+
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

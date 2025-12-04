@@ -106,7 +106,7 @@ public partial class TicketViewModel : ObservableObject
     /*--------------------*/
 
 
-
+    //to able show displayAlerts
     public event Func<string, Task>? TicketAdded;
     public event Func<Ticket, Task>? TicketDeleted;
     public event Func<Ticket, Task>? TicketUpdated;

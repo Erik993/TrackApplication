@@ -8,11 +8,11 @@ namespace TrackApplicationData.DbContextData
 {
     public class ApplicationContext : DbContext
     {
-        /*
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        
+        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-            //if statement to make test possible with EF InMemory
+            
             if(!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer
