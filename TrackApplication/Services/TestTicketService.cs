@@ -41,8 +41,6 @@ class TestTicketService : ICreateTestTicketService
             .CustomInstantiator(f =>
             {
                 //chose a random employee from existing employees
-                //var employee = f.PickRandom(_emplState.Employees);
-
                 //need to convert ObservableCollection to list, before pick a random element,
                 //because Bogus doesnot work with ObservableCollection
                 var employee = f.PickRandom(_emplState.Employees.ToList());

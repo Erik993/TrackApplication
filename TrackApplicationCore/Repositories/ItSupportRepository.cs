@@ -18,7 +18,18 @@ public class ItSupportRepository : IItSupportRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<ITSupport>> GetAllAsync() => await _context.ITSupports.ToListAsync();
+    public async Task<IEnumerable<ITSupport>> GetAllAsync()
+    {
+        Debug.WriteLine(">>> REPOSITORY.GetAllAsync called");
+        var list = await _context.ITSupports.ToListAsync();
+        /*var list = await _context.ITSupports
+            .AsNoTracking()
+            .ToListAsync();*/
+
+
+        Debug.WriteLine(">>> Loaded " + list.Count + " IT support items from DB");
+        return list;
+    }
 
     public async Task<ITSupport?> GetByIdAsync(int id) => await _context.ITSupports.FindAsync(id);
 

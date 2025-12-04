@@ -20,6 +20,15 @@ public class AssignmentRepository : IAssignmentRepository
 
     public async Task AddAsync(Assignment assignment)
     {
+        var itsupport = await _context.ITSupports
+            .FirstOrDefaultAsync(i => i.UserId == assignment.ITSupportId);
+
+        var ticket = await _context.Tickets
+            .FirstOrDefaultAsync(t => t.TicketID == assignment.TicketId);
+
+        assignment.ITSupport = itsupport;
+        assignment.Ticket = ticket;
+
         await _context.Assignments.AddAsync(assignment);
         await _context.SaveChangesAsync();
     }

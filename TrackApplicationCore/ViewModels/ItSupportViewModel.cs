@@ -76,21 +76,34 @@ public partial class ItSupportViewModel :ObservableObject
             Roles.Add(role);
         }
 
+
         LoadItSupports();
+        //LoadInitial();
+
+
+        //Debug.WriteLine($"it support states has :{_state.ItSupports} elements");
     }
 
 
+    public async void LoadInitial()
+    {
+        await LoadItSupports();
+    }
 
-    [RelayCommand]
+    
     public async Task LoadItSupports()
     {
+        Debug.WriteLine(">>> LoadItSupports START");
+        _state.ItSupports.Clear();
         var list = await _repository.GetAllAsync();
 
-        _state.ItSupports.Clear();
+        
         foreach(var e in list)
         {
             _state.ItSupports.Add(e);
         }
+
+        Debug.WriteLine($">>> ItSupportViewModel saved {ItSupports.Count} items into state (state hash: {_state.GetHashCode()})");
     }
 
 

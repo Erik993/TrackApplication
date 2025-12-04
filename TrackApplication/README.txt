@@ -1,13 +1,21 @@
 ﻿Comments:
 
+---Comments, what can be impoved or doesnot works as intended
+1) after element update, need to go back to main element page, then on show page, and element is shown updated.
+perhaps UI can't immediately show updated element data, so before-update data is shown
+
+To run migration:
+1) Select TrackApplication.MigrationsRunner as startup project
+2) Seelct TrackApplicationData as Default project
+3) In TrackApplicationData OnConfiguring
+4) OnConfiguring can be commented after the migration completed, because the connection string is in appsettings.json
+5) Select TrackApplication as startup project
 
 There following projects in solution:
 1) TrackApplication - MAUI application with UI (pages)
-2) TrackApplication.MigratiobsRunner - console app just to run migrations
+2) TrackApplication.MigrationsRunner - console app just to run migrations
 3) TrackApplicationData - stores Models and context
 4) TrackApplicationCore - stores Viewmodels, Interfaces, Repositories, States
-5) Testproject - xUnit poject to test viewmodels, repositories, states (not ui)
-----
 
 
 1) Interface - to define what operations exists,  to allow DI
@@ -16,17 +24,10 @@ There following projects in solution:
 4) ViewModel - handle UI, repare data for UI, loads data into state. Transcient lifetime
 
 
----Comments, what can be impoved or doesnot works as intended
-1) after element update, need to go back to main element page, then on show page, and element is shown updated.
-perhaps UI can't immediately show updated element data, so before-update data is shown
-
-
-
 Libraries installed:
 1) CommunityToolkit.Mvvm -Version 8.4.0 to use it instead of manual INotifyPropertyChange
-2) Microsoft.EntityFrameworkCore.InMemory - for test project
-3) Bogus. https://github.com/bchavez/Bogus to populate DB with fake data
-4) Microsoft.Extensions.Configuration.Json
+2) Bogus. https://github.com/bchavez/Bogus to populate DB with fake data
+3) Microsoft.Extensions.Configuration.Json
 
 How the update functionality works, data flow:
 1) ShowPage has button that calls the command, as example:

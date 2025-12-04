@@ -83,6 +83,7 @@ namespace TrackApplication
             //service for dummy data creation
             builder.Services.AddSingleton<ICreateTestUserService, TestUserService>();
             builder.Services.AddSingleton<ICreateTestTicketService, TestTicketService>();
+            builder.Services.AddSingleton<ICreateTestAssignmentService, TestAssignmentService>();
 
 
             //Employee pages
@@ -117,12 +118,12 @@ namespace TrackApplication
 
             //Employee
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            builder.Services.AddScoped<EmployeeViewModel>();
+            builder.Services.AddTransient<EmployeeViewModel>();
             builder.Services.AddSingleton<EmployeeState>();
             
             //ITSupport
             builder.Services.AddScoped<IItSupportRepository, ItSupportRepository>();
-            builder.Services.AddScoped<ItSupportViewModel>();
+            builder.Services.AddTransient<ItSupportViewModel>();
             builder.Services.AddSingleton<ItSupportState>();
             
             //Ticket

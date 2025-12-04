@@ -23,12 +23,12 @@ namespace TrackApplication
             BindingContext = mainVm;
         }
 
-
+        /*
         public async void GoToEmployeePageButtonClicked(object sender, EventArgs e)
         {
             //await Shell.Current.GoToAsync(nameof(EmployeePage));
             await Shell.Current.GoToAsync("EmployeePage");
-        }
+        }*/
 
     }
 }
