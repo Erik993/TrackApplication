@@ -69,8 +69,13 @@ namespace TrackApplication
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             Debug.WriteLine($"Connection string: {connectionString}");
 
+            
             builder.Services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connectionString));
+            
+
+
+
 
             //------------View page registration-------------------
 
@@ -79,6 +84,9 @@ namespace TrackApplication
 
             //for navigation funtionality, is used in update functionality
             builder.Services.AddSingleton<INavigationService, NavigationService>();
+
+            //To show alert for user
+            builder.Services.AddSingleton<IAlertService, AlertService>();
 
             //service for dummy data creation
             builder.Services.AddSingleton<ICreateTestUserService, TestUserService>();

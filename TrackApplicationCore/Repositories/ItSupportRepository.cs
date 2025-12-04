@@ -20,51 +20,103 @@ public class ItSupportRepository : IItSupportRepository
 
     public async Task<IEnumerable<ITSupport>> GetAllAsync()
     {
-        Debug.WriteLine(">>> REPOSITORY.GetAllAsync called");
-        var list = await _context.ITSupports.ToListAsync();
-        /*var list = await _context.ITSupports
-            .AsNoTracking()
-            .ToListAsync();*/
+        try
+        {
+            Debug.WriteLine(">>> REPOSITORY.GetAllAsync called");
+            var list = await _context.ITSupports.ToListAsync();
+            /*var list = await _context.ITSupports
+                .AsNoTracking()
+                .ToListAsync();*/
 
 
-        Debug.WriteLine(">>> Loaded " + list.Count + " IT support items from DB");
-        return list;
+            Debug.WriteLine(">>> Loaded " + list.Count + " IT support items from DB");
+            return list;
+        }
+        catch(Exception ex)
+        {
+            Debug.WriteLine($"Error loading it supports {ex.Message}");
+            throw new ApplicationException($"Cant load it supports, check connection with database, {ex}");
+        }
+
+
     }
 
-    public async Task<ITSupport?> GetByIdAsync(int id) => await _context.ITSupports.FindAsync(id);
+    public async Task<ITSupport?> GetByIdAsync(int id)
+    {
+        try
+        {
+            return await _context.ITSupports.FindAsync(id);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"cant get itsupport with id{id}, {ex.Message}");
+            throw new ApplicationException($"Cant get particular it support, check connection with database, {ex}");
+        }
+    }
 
 
     public async Task AddAsync(ITSupport itSupport)
     {
-        /*
-        await _context.ITSupports.AddAsync(itSupport);
-        await _context.SaveChangesAsync();
-        */
+        try
+        {
+            Debug.WriteLine("Adding ITSupport: " + itSupport.UserName);
+            await _context.ITSupports.AddAsync(itSupport);
+            var changes = await _context.SaveChangesAsync();
+            Debug.WriteLine("SaveChangesAsync returned: " + changes);
+        }
+        catch(Exception ex)
+        {
+            Debug.WriteLine($"Error when adding new it support {ex.Message}");
+            throw new ApplicationException($"Cant add new it support, check connection with database, {ex}");
+        }
 
-        Debug.WriteLine("Adding ITSupport: " + itSupport.UserName);
-        await _context.ITSupports.AddAsync(itSupport);
-        var changes = await _context.SaveChangesAsync();
-        Debug.WriteLine("SaveChangesAsync returned: " + changes);
 
     }
 
     public async Task UpdateAsync(ITSupport itSupport)
     {
-        _context.ITSupports.Update(itSupport);
-        await _context.SaveChangesAsync();
+        try
+        {
+            _context.ITSupports.Update(itSupport);
+            await _context.SaveChangesAsync();
+        }
+        catch(Exception ex)
+        {
+            Debug.WriteLine($"Error when updating it support {ex.Message}");
+            throw new ApplicationException($"Cant update it support, check connection with database, {ex}");
+        }
+
     }
 
     public async Task DeleteAsync(ITSupport itSupport)
     {
-        _context.ITSupports.Remove(itSupport);
-        await _context.SaveChangesAsync();
+        try
+        {
+            _context.ITSupports.Remove(itSupport);
+            await _context.SaveChangesAsync();
+        }
+        catch(Exception ex)
+        {
+            Debug.WriteLine($"Error when deleting it support {ex.Message}");
+            throw new ApplicationException($"Cant delete it support, check connection with database, {ex}");
+        }
+
     }
 
     public async Task DeleteAllAsync()
     {
-        var allITSupports = await _context.ITSupports.ToListAsync();
-        _context.ITSupports.RemoveRange(allITSupports);
-        await _context.SaveChangesAsync();
+        try
+        {
+            var allITSupports = await _context.ITSupports.ToListAsync();
+            _context.ITSupports.RemoveRange(allITSupports);
+            await _context.SaveChangesAsync();
+        }
+        catch(Exception ex)
+        {
+            Debug.WriteLine($"Error when deleting all itsupport{ex.Message}");
+            throw new ApplicationException($"Cant delete all it supports, check connection with database, {ex}");
+        }
+
     }
 
 }

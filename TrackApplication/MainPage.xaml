@@ -32,13 +32,6 @@
         <Button Grid.Row="5" Grid.ColumnSpan="2" Text="Create 5 test Assignments" Command="{Binding GenerateTestAssignmentsCommand}" />
         <Button Grid.Row="6" Grid.ColumnSpan="2" Text="Delete ALL Assignments" BackgroundColor="Red" Command="{Binding DeleteAllAssignmentsCommand}" />
 
-        <!--
-        Clicked="EmployeeButtonClicked"/
-            <Button Grid.Row="2" Grid.Column="1" Text="ITSupports" Clicked="ITSupportButtonClicked"/>
-        <Button Grid.Row="3" Grid.Column="0" Text="Tickets" Clicked="TicketButtonClicked"/>
-        <Button Grid.Row="3" Grid.Column="1" Text="Assignments" Clicked="AssignmentButtonClicked"/>
-            -->
-
     </Grid>
 
 </ContentPage>

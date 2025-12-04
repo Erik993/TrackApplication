@@ -19,65 +19,98 @@ public class TicketRepository : ITicketRepository
         _context = context;
     }
 
-    /*
-    public async Task AddAsync(Ticket ticket)
-    {
-        await _context.Tickets.AddAsync(ticket);
-        await _context.SaveChangesAsync();
-    }*/
 
     public async Task AddAsync(Ticket ticket)
     {
         try
         {
-            //if the employee exists, dont insert it. Line of code from AI
-            //_context.Attach(ticket.CreatedBy);
-
             //find out an employee from the context with the same id
             var employee = await _context.Employees
                 .FirstOrDefaultAsync(e => e.UserId == ticket.CreatedById);
-
-            /*
-            if (employee == null)
-                throw new Exception($"Employee with ID {ticket.CreatedById} not found");
-            */
             
             ticket.CreatedBy = employee;
-
             await _context.Tickets.AddAsync(ticket);
             await _context.SaveChangesAsync();
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"Error adding ticket. Title: {ticket.Title}, CreatedById: {ticket.CreatedById}");
-            Debug.WriteLine("EXCEPTION: " + ex);
-            Debug.WriteLine("INNER: " + ex.InnerException?.Message);
-            throw;
+            throw new ApplicationException($"Cant add new ticket, check connection with database, {ex}");
         }
     }
 
 
     public async Task DeleteAllAsync()
     {
-        var allTickets = await _context.Tickets.ToListAsync();
-        _context.Tickets.RemoveRange(allTickets);
-        await _context.SaveChangesAsync();
+        try
+        {
+            var allTickets = await _context.Tickets.ToListAsync();
+            _context.Tickets.RemoveRange(allTickets);
+            await _context.SaveChangesAsync();
+        }
+        catch(Exception ex)
+        {
+            Debug.WriteLine($"Error when deleting all tickets {ex.Message}");
+            throw new ApplicationException($"Cant delete all tickets, check connection with database, {ex}");
+        }
+
     }
 
     public async Task DeleteAsync(Ticket ticket)
     {
-        _context.Tickets.Remove(ticket);
-        await _context.SaveChangesAsync();
+        try
+        {
+            _context.Tickets.Remove(ticket);
+            await _context.SaveChangesAsync();
+        }
+        catch(Exception ex)
+        {
+            Debug.WriteLine($"Error when deleting all tickets: {ex.Message}");
+            throw new ApplicationException($"Cant delete all tickets, check connection with database, {ex}");
+        }
+
     }
 
-    public async Task<IEnumerable<Ticket>> GetAllAsync() => await _context.Tickets.ToListAsync();
+    public async Task<IEnumerable<Ticket>> GetAllAsync()
+    {
+        try
+        {
+            return await _context.Tickets.ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error loading tickets {ex.Message}");
+            throw new ApplicationException($"Cant load tickets, check connection with database, {ex}");
+        }
+    }
 
 
-    public async Task<Ticket?> GetByIdAsync(int id) => await _context.Tickets.FindAsync(id);
+    public async Task<Ticket?> GetByIdAsync(int id)
+    {
+        try
+        {
+            return await _context.Tickets.FindAsync(id);
+        }
+        catch(Exception ex)
+        {
+            Debug.WriteLine($"Error loading particular ticket {ex.Message}");
+            throw new ApplicationException($"Cant load parcticular ticket, check connection with database, {ex}");
+        }
+    }
+
 
     public async Task UpdateAsync(Ticket ticket)
     {
-        _context.Tickets.Update(ticket);
-        await _context.SaveChangesAsync();
+        try
+        {
+            _context.Tickets.Update(ticket);
+            await _context.SaveChangesAsync();
+        }
+        catch(Exception ex)
+        {
+            Debug.WriteLine($"Error when updating ticket {ex.Message}");
+            throw new ApplicationException($"Cant update ticket, check connection with database, {ex}");
+        }
+
     }
 }

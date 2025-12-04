@@ -1,13 +1,17 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using TrackApplicationData.Models;
 using System.Diagnostics;
-using TrackApplicationCore.States;
+using System.Text;
 using TrackApplicationCore.Interfaces;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using TrackApplicationCore.Repositories;
+using TrackApplicationCore.States;
+using TrackApplicationData.DbContextData;
+using TrackApplicationData.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TrackApplicationCore.ViewModels;
 
@@ -18,18 +22,15 @@ public partial class EmployeeViewModel : ObservableObject
     private readonly IEmployeeRepository _repository;
     private readonly EmployeeState _state;
 
+    //to show DB alerts
+    private readonly IAlertService _alertService;
+
 
     //property is used in GoToEditEmployee method. without it shell navigation does not works. 
     private readonly INavigationService _navigation;
 
-
-
-
     //public ObservableCollection<Employee> Employees { get; set; } = new();
     public ObservableCollection<Employee> Employees => _state.Employees;
-
-
-
 
 
     [ObservableProperty]
@@ -67,69 +68,57 @@ public partial class EmployeeViewModel : ObservableObject
     public event Func<Employee, Task>? EmployeeDeleted;
     public event Func<Employee, Task>? EmployeeUpdated;
 
-    public EmployeeViewModel(IEmployeeRepository repository, EmployeeState state, INavigationService navigation)
+    public EmployeeViewModel(IEmployeeRepository repository, EmployeeState state, 
+        INavigationService navigation, IAlertService alertService)
     {
         _repository = repository;
         _state = state;
         _navigation = navigation;
+        _alertService = alertService;
         LoadEmployees();
-
-        //if this is printed when the page loads - DI is injecting
-        //Debug.WriteLine("ViewModel created with repo: " + repository.GetType().Name);
     }
-
-    /*
-    [RelayCommand]
-    public async Task LoadEmployees()
-    {
-        Employees.Clear();
-
-        var list = await _repository.GetAllAsync();
-        foreach (var e in list)
-        {
-            Employees.Add(e);
-        }
-
-        _state.Employees.Clear();
-        foreach (var e in Employees)
-            _state.Employees.Add(e);
-    }*/
 
 
     [RelayCommand]
     public async Task LoadEmployees()
     {
-        var list = await _repository.GetAllAsync();
-
-        _state.Employees.Clear();
-        foreach (var e in list)
+        try
         {
-            _state.Employees.Add(e);
+            var list = await _repository.GetAllAsync();
+            _state.Employees.Clear();
+            foreach (var e in list)
+            {
+                _state.Employees.Add(e);
+            }
+        }
+        catch(ApplicationException ex)
+        {
+            await _alertService.ShowAsync("Error", ex.Message, "ОК");
         }
     }
-
 
 
     [RelayCommand]
     private async Task AddEmployee()
     {
-        //to debug context
-        Debug.WriteLine("Context type: " + _repository.GetType().FullName);
+        if (string.IsNullOrEmpty(NewUserName) || string.IsNullOrEmpty(NewEmail))
+            return;
 
+        var employee = new Employee(NewUserName, NewEmail, NewIsActive);
 
-        if (!string.IsNullOrEmpty(NewUserName) && !string.IsNullOrEmpty(NewEmail))
+        try
         {
-            var employee = new Employee(NewUserName, NewEmail, NewIsActive);
-            Debug.WriteLine($"new employee: {employee.UserName}, {employee.Email}");
-
             await _repository.AddAsync(employee);
-            
             await LoadEmployees();
 
+            if (EmployeeAdded != null)
+                await EmployeeAdded.Invoke(NewUserName);
         }
-
-        if (EmployeeAdded != null)
-            await EmployeeAdded.Invoke(NewUserName);
+        catch (ApplicationException ex)
+        {
+            // show message
+            await _alertService.ShowAsync("Error", ex.Message, "ОК");
+        }
 
         //clear inputs
         NewUserName = string.Empty;
@@ -137,57 +126,83 @@ public partial class EmployeeViewModel : ObservableObject
     }
 
 
+
+    //--------------manually throw exception with button. just to check it works-------------------------------
+    [RelayCommand]
+    private async Task TestErrorAlert()
+    {
+        try
+        {
+            throw new ApplicationException("eror in conncetion to DB");
+        }
+        catch (ApplicationException ex)
+        {
+            await _alertService.ShowAsync("Error", ex.Message, "ОК");
+        }
+    }
+
+
+    /*-------------------------------------------*/
+
+
+
     [RelayCommand]
     private async Task DeleteEmployee(Employee employee)
     {
-        Debug.WriteLine($"deleting {employee.UserName}");
-        await _repository.DeleteAsync(employee);
-        
-        await LoadEmployees();
-
-        //if object was deleted, invoke event to show display alert window
-        if(EmployeeDeleted != null)
+        try
         {
-            await EmployeeDeleted.Invoke(employee);
+            Debug.WriteLine($"deleting {employee.UserName}");
+            await _repository.DeleteAsync(employee);
+            await LoadEmployees();
+            //if object was deleted, invoke event to show display alert window
+            if (EmployeeDeleted != null)
+            {
+                await EmployeeDeleted.Invoke(employee);
+            }
         }
+        catch(ApplicationException ex)
+        {
+            await _alertService.ShowAsync("Error", ex.Message, "ОК");
+        }
+
     }
 
 
     [RelayCommand]
     public async Task UpdateEmployee()
     {
-        if (SelectedEmployee == null)
-            return;
+        try
+        {
+            if (SelectedEmployee == null)
+                return;
 
-        if (!string.IsNullOrWhiteSpace(EditUserName))
-            SelectedEmployee.UserName = EditUserName;
+            if (!string.IsNullOrWhiteSpace(EditUserName))
+                SelectedEmployee.UserName = EditUserName;
 
-        if (!string.IsNullOrWhiteSpace(EditEmail))
-            SelectedEmployee.Email = EditEmail;
+            if (!string.IsNullOrWhiteSpace(EditEmail))
+                SelectedEmployee.Email = EditEmail;
 
-        SelectedEmployee.IsActive = EditIsActive;
+            SelectedEmployee.IsActive = EditIsActive;
 
-        //update record in db
-        await _repository.UpdateAsync(SelectedEmployee);
+            //update record in db
+            await _repository.UpdateAsync(SelectedEmployee);
 
-        //reload collection for UI
-        await LoadEmployees();
+            //reload collection for UI
+            await LoadEmployees();
+
+            //run event if the employee was updated
+            if (EmployeeUpdated != null)
+                await EmployeeUpdated.Invoke(SelectedEmployee);
+        }
+        catch(ApplicationException ex)
+        {
+            await _alertService.ShowAsync("Error", ex.Message, "ОК");
+        }
 
 
         //reset edited fields
         EditUserName = string.Empty;
         EditEmail = string.Empty;
-
-
-        //run event if the employee was updated
-        if (EmployeeUpdated != null)
-            await EmployeeUpdated.Invoke(SelectedEmployee);
-
-        //await _navigation.GoToAsync("..");
-
-        // Update ObservableCollection immediately
-        
-
 
     }
 
@@ -212,6 +227,5 @@ public partial class EmployeeViewModel : ObservableObject
     {
         await _navigation.GoToAsync($"EditEmployeePage?employeeId={employeeId}");
     }
-
 
 }

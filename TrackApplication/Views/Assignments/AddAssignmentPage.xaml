@@ -38,6 +38,7 @@
 
             <Button Text="Back"
                     Clicked="GoBackToAssignmentPageClicked"/>
+
         </HorizontalStackLayout>
 
     </VerticalStackLayout>

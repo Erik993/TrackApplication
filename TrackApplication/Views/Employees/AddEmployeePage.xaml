@@ -13,6 +13,11 @@
 
         <Button Text="Save Employee" Command="{Binding AddEmployeeCommand}"/>
         <Button Text="Go Back to Employees Page" Clicked="GoBackToEmployeePageClicked"/>
+
+        <Button Text="TestErrorAlert"
+        Command="{Binding TestErrorAlertCommand}"
+        BackgroundColor="Green"
+        TextColor="White" />
     </VerticalStackLayout>
     
 </ContentPage>

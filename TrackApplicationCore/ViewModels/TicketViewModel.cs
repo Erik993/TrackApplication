@@ -18,6 +18,9 @@ public partial class TicketViewModel : ObservableObject
     private readonly ITicketRepository _repository;
     private readonly TicketState _state;
 
+    //to show DB alerts
+    private readonly IAlertService _alertService;
+
     //property is used in GoToEditTicket method. without it shell navigation does not works. 
     private readonly INavigationService _navigation;
 
@@ -25,7 +28,6 @@ public partial class TicketViewModel : ObservableObject
 
     //observabble collection stores all EmployeeState elements - all existing employees
     public ObservableCollection<Employee> Employees { get; }
-
 
 
     //collection for Statuses
@@ -37,12 +39,13 @@ public partial class TicketViewModel : ObservableObject
     //elements from employee state is loaded in observable collection
     //Statuses and priorities are populated in constructor
     public TicketViewModel(EmployeeState employeeState, ITicketRepository repository,
-        TicketState state, INavigationService navigation)
+        TicketState state, INavigationService navigation, IAlertService alertService)
     {
         Employees = employeeState.Employees;
         _repository = repository;
         _state = state;
         _navigation = navigation;
+        _alertService = alertService;
 
         foreach(var status in Enum.GetValues(typeof(StatusEnum)).Cast<StatusEnum>())
         {
@@ -54,9 +57,7 @@ public partial class TicketViewModel : ObservableObject
             Priorities.Add(priority);
         }
 
-
         LoadTickets();
-
     }
 
 
@@ -113,39 +114,52 @@ public partial class TicketViewModel : ObservableObject
 
 
 
-
     [RelayCommand]
     public async Task LoadTickets()
     {
-        var list = await _repository.GetAllAsync();
-
-        _state.Tickets.Clear();
-        foreach(var t in list)
+        try
         {
-            _state.Tickets.Add(t);
+            var list = await _repository.GetAllAsync();
+            _state.Tickets.Clear();
+            foreach (var t in list)
+            {
+                _state.Tickets.Add(t);
+            }
         }
+        catch (ApplicationException ex)
+        {
+            await _alertService.ShowAsync("Error", ex.Message, "ОК");
+        }
+
     }
 
 
     [RelayCommand]
     private async Task AddTicket()
     {
-        Debug.WriteLine("AddTicketCommand EXECUTED");
-        Debug.WriteLine($"Check values: title={NewTitle}, description={NewDescription}, status={NewStatus}, priority={NewPriority}");
-
-        //only description can be empty in a ticket
-        //is resolved ticket by default is false
-        if (!string.IsNullOrEmpty(NewTitle) && NewStatus!= null && NewPriority 
-            != null && NewCreatedBy != null)
+        try
         {
-            var ticket = new Ticket(NewTitle, NewDescription, NewPriority.Value, NewCreatedBy, NewStatus.Value);
+            Debug.WriteLine("AddTicketCommand EXECUTED");
+            Debug.WriteLine($"Check values: title={NewTitle}, description={NewDescription}, status={NewStatus}, priority={NewPriority}");
 
-            await _repository.AddAsync(ticket);
-            await LoadTickets();
+            //only description can be empty in a ticket
+            //is resolved ticket by default is false
+            if (!string.IsNullOrEmpty(NewTitle) && NewStatus != null && NewPriority
+                != null && NewCreatedBy != null)
+            {
+                var ticket = new Ticket(NewTitle, NewDescription, NewPriority.Value, NewCreatedBy, NewStatus.Value);
+
+                await _repository.AddAsync(ticket);
+                await LoadTickets();
+            }
+            if (TicketAdded != null)
+                await TicketAdded.Invoke(NewTitle);
         }
-
-        if (TicketAdded != null)
-            await TicketAdded.Invoke(NewTitle);
+        catch (ApplicationException ex)
+        {
+            // show message
+            await _alertService.ShowAsync("Error", ex.Message, "ОК");
+        }
 
         //clear inputs
         NewTitle = string.Empty;
@@ -160,42 +174,58 @@ public partial class TicketViewModel : ObservableObject
     [RelayCommand]
     private async Task DeleteTicket(Ticket ticket)
     {
-        Debug.WriteLine($"deleting {ticket.Title}");
-        await _repository.DeleteAsync(ticket);
-
-        await LoadTickets();
-
-        if (TicketDeleted != null)
+        try
         {
-            await TicketDeleted.Invoke(ticket);
+            Debug.WriteLine($"deleting {ticket.Title}");
+            await _repository.DeleteAsync(ticket);
+            await LoadTickets();
+            if (TicketDeleted != null)
+            {
+                await TicketDeleted.Invoke(ticket);
+            }
         }
+        catch (ApplicationException ex)
+        {
+            await _alertService.ShowAsync("Error", ex.Message, "ОК");
+        }
+
     }
 
 
     [RelayCommand]
     private async Task UpdateTicket()
     {
-        Debug.Write("update ticket command is executed");
+        try
+        {
+            Debug.Write("update ticket command is executed");
 
-        if (SelectedTicket == null) return;
+            if (SelectedTicket == null) return;
 
-        if (!string.IsNullOrWhiteSpace(EditTitle))
-            SelectedTicket.Title = EditTitle;
+            if (!string.IsNullOrWhiteSpace(EditTitle))
+                SelectedTicket.Title = EditTitle;
 
-        if (!string.IsNullOrWhiteSpace(EditDescription))
-            SelectedTicket.Description = EditDescription;
+            if (!string.IsNullOrWhiteSpace(EditDescription))
+                SelectedTicket.Description = EditDescription;
 
-        if (EditStatus != null)
-            SelectedTicket.Status = EditStatus.Value;
+            if (EditStatus != null)
+                SelectedTicket.Status = EditStatus.Value;
 
-        if (EditPriority != null)
-            SelectedTicket.Priority = EditPriority.Value;
+            if (EditPriority != null)
+                SelectedTicket.Priority = EditPriority.Value;
 
-        SelectedTicket.IsResolved = EditIsResolved;
+            SelectedTicket.IsResolved = EditIsResolved;
 
-        await _repository.UpdateAsync(SelectedTicket);
+            await _repository.UpdateAsync(SelectedTicket);
 
-        await LoadTickets();
+            await LoadTickets();
+
+            if (TicketUpdated != null)
+                await TicketUpdated.Invoke(SelectedTicket);
+        }
+        catch (ApplicationException ex)
+        {
+            await _alertService.ShowAsync("Error", ex.Message, "ОК");
+        }
 
         //clear inputs
         NewTitle = string.Empty;
@@ -204,9 +234,6 @@ public partial class TicketViewModel : ObservableObject
         NewIsResolved = false;
         NewPriority = null;
         NewStatus = null;
-
-        if (TicketUpdated != null)
-            await TicketUpdated.Invoke(SelectedTicket);
     }
 
 
@@ -231,6 +258,5 @@ public partial class TicketViewModel : ObservableObject
     {
         await _navigation.GoToAsync($"EditTicketPage?ticketId={ticketId}");
     }
-
 
 }

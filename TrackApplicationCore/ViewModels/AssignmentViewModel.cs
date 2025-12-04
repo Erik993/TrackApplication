@@ -17,6 +17,9 @@ public partial class AssignmentViewModel : ObservableObject
     private readonly IAssignmentRepository _repository;
     private readonly AssignmentState _state;
 
+    //to show DB alerts
+    private readonly IAlertService _alertService;
+
     //property is used in GoToEditTicket method. without it shell navigation does not works. 
     private readonly INavigationService _navigation;
 
@@ -27,13 +30,15 @@ public partial class AssignmentViewModel : ObservableObject
 
 
     public AssignmentViewModel(IAssignmentRepository repository, AssignmentState state,
-        INavigationService navigation, ItSupportState itSupState, TicketState ticketState)
+        INavigationService navigation, ItSupportState itSupState, TicketState ticketState,
+        IAlertService alertService)
     {
         _repository = repository;
         _state = state;
         _navigation = navigation;
         ITSupports = itSupState.ItSupports;
         Tickets = ticketState.Tickets;
+        _alertService = alertService;
 
         LoadAssignments();
     }
@@ -72,29 +77,43 @@ public partial class AssignmentViewModel : ObservableObject
     [RelayCommand]
     public async Task LoadAssignments()
     {
-        var list = await _repository.GetAllAsync();
-
-        _state.Assignments.Clear();
-        foreach(var a in list)
+        try
         {
-            _state.Assignments.Add(a);
+            var list = await _repository.GetAllAsync();
+            _state.Assignments.Clear();
+            foreach (var a in list)
+            {
+                _state.Assignments.Add(a);
+            }
+        }
+        catch (ApplicationException ex)
+        {
+            await _alertService.ShowAsync("Error", ex.Message, "ОК");
         }
     }
 
     [RelayCommand]
     private async Task AddAssignment()
     {
-        Debug.WriteLine("AddAssignmentCommand executed");
-
-        if(NewITSupResponsibleFor != null && NewTicket != null)
+        try
         {
-            var assignment = new Assignment(NewITSupResponsibleFor, NewTicket, NewComment);
-            await _repository.AddAsync(assignment);
-            await LoadAssignments();
+            Debug.WriteLine("AddAssignmentCommand executed");
+            if (NewITSupResponsibleFor != null && NewTicket != null)
+            {
+                var assignment = new Assignment(NewITSupResponsibleFor, NewTicket, NewComment);
+                await _repository.AddAsync(assignment);
+                await LoadAssignments();
+
+                if (AssignmentAdded != null) await AssignmentAdded.Invoke();
+            }
         }
-
-        if (AssignmentAdded != null) await AssignmentAdded.Invoke();
-
+        catch (ApplicationException ex)
+        {
+            // show message
+            await _alertService.ShowAsync("Error", ex.Message, "ОК");
+        }
+        
+        //clear inputs
         NewITSupResponsibleFor = null;
         NewTicket = null;
         NewComment = string.Empty;
@@ -104,33 +123,47 @@ public partial class AssignmentViewModel : ObservableObject
     [RelayCommand]
     private async Task DeleteAssignment(Assignment assignment)
     {
-        Debug.WriteLine($"deleting assignment with id: {assignment.AssignmentId}");
-        await _repository.DeleteAsync(assignment);
-        await LoadAssignments();
+        try
+        {
+            Debug.WriteLine($"deleting assignment with id: {assignment.AssignmentId}");
+            await _repository.DeleteAsync(assignment);
+            await LoadAssignments();
 
-        if (AssignmentDeleted != null) await AssignmentDeleted.Invoke(assignment);
+            if (AssignmentDeleted != null) await AssignmentDeleted.Invoke(assignment);
+        }
+        catch (ApplicationException ex)
+        {
+            await _alertService.ShowAsync("Error", ex.Message, "ОК");
+        }
     }
 
 
     [RelayCommand]
     private async Task UpdateAssignment()
     {
-        Debug.Write("update assignment command is executed");
+        try
+        {
+            Debug.Write("update assignment command is executed");
 
-        if (SelectedAssignment == null) return;
+            if (SelectedAssignment == null) return;
 
-        if (EditITSupResponsibleFor != null)
-            SelectedAssignment.ITSupport = EditITSupResponsibleFor;
+            if (EditITSupResponsibleFor != null)
+                SelectedAssignment.ITSupport = EditITSupResponsibleFor;
 
-        if (EditTicket != null)
-            SelectedAssignment.Ticket = EditTicket;
+            if (EditTicket != null)
+                SelectedAssignment.Ticket = EditTicket;
 
-        if (!string.IsNullOrWhiteSpace(EditComment))
-            SelectedAssignment.Comment = EditComment;
+            if (!string.IsNullOrWhiteSpace(EditComment))
+                SelectedAssignment.Comment = EditComment;
 
-        await _repository.UpdateAsync(SelectedAssignment);
+            await _repository.UpdateAsync(SelectedAssignment);
 
-        await LoadAssignments();
+            await LoadAssignments();
+        }
+        catch (ApplicationException ex)
+        {
+            await _alertService.ShowAsync("Error", ex.Message, "ОК");
+        }
 
 
         //clear inputs
@@ -162,8 +195,6 @@ public partial class AssignmentViewModel : ObservableObject
     {
         await _navigation.GoToAsync($"EditAssignmentPage?assignmentId={assignmentId}");
     }
-
-
 
 }
 
