@@ -20,18 +20,3 @@ namespace TrackApplication
         }
     }
 }
-
-
-//private readonly IServiceProvider _services;
-
-//added IServiceProvider serviceProvider + serviceProvider.GetRequiredService<MainPage>()
-/*
-public App(IServiceProvider serviceProvider)
-{
-    //InitializeComponent();
-    _services = serviceProvider;
-    MainPage = new NavigationPage(serviceProvider.GetRequiredService<MainPage>());
-
-
-
-}*/

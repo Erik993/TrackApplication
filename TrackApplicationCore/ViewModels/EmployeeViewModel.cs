@@ -11,7 +11,6 @@ using TrackApplicationCore.Repositories;
 using TrackApplicationCore.States;
 using TrackApplicationData.DbContextData;
 using TrackApplicationData.Models;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TrackApplicationCore.ViewModels;
 

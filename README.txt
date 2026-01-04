@@ -6,10 +6,11 @@ perhaps UI can't immediately show updated element data, so before-update data is
 
 To run migration:
 1) Select TrackApplication.MigrationsRunner as startup project
-2) Seelct TrackApplicationData as Default project
-3) In TrackApplicationData OnConfiguring
-4) OnConfiguring can be commented after the migration completed, because the connection string is in appsettings.json
-5) Select TrackApplication as startup project
+2) Select TrackApplicationData as Default project
+3) In TrackApplicationData, in class ApplicationContext, uncomment OnConfiguring method
+4) run migrations
+5) OnConfiguring can be commented after the migration completed, because the connection string is in appsettings.json
+6) Select TrackApplication as startup project
 
 There following projects in solution:
 1) TrackApplication - MAUI application with UI (pages)
